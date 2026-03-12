@@ -38,7 +38,7 @@ export default function FooterRD() {
         
         {/* Lado Esquerdo: Texto e Branding */}
         <div className="relative z-10">
-          <h2 className="text-4xl md:text-[64px] font-[900] text-[#2D2D2D] leading-[1] uppercase mb-8 tracking-tighter">
+          <h2 className="text-4xl md:text-[64px] font-[700] text-[#2D2D2D] leading-[1] uppercase mb-8 tracking-wide">
             Quer ver a <br /> tecnologia <br /> funcionando <br /> na prática?
           </h2>
           <p className="text-xl text-[#2D2D2D] font-medium max-w-md mb-12 leading-relaxed">

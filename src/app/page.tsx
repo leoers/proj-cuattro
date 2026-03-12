@@ -47,7 +47,7 @@ export default function Home() {
       {/* 2. BLOCO HERO COM DEGRADÊ AJUSTADO */}
       <section className="bg-gradient-to-b from-white from-0% via-[#FFFCE5] via-20% to-[#ffee5a] pt-48 pb-20 px-6">
         <div className="max-w-6xl mx-auto text-center">
-          <h1 className="text-4xl md:text-[56px] font-[900] text-[#2D2D2D] tracking-tight leading-[1.1] mb-8">
+          <h1 className="text-4xl md:text-[56px] font-[700] text-[#2D2D2D] tracking-wide leading-[1.1] mb-8">
             Transforme cada produto em um <br />
             vendedor digital no ponto de venda!
           </h1>
@@ -99,7 +99,7 @@ export default function Home() {
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.8, ease: "easeOut" }}
         >
-          <h2 className="text-4xl md:text-[52px] font-[900] text-[#2D2D2D] leading-[1.1] tracking-tighter mb-20 uppercase">
+          <h2 className="text-4xl md:text-[52px] font-[700] text-[#2D2D2D] leading-[1.1] tracking-wide mb-20 uppercase">
             Tecnologia interativa para <br /> aumentar vendas no varejo
           </h2>
 
@@ -156,7 +156,7 @@ export default function Home() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
-            className="text-4xl md:text-[64px] font-[900] text-[#2D2D2D] leading-[1] uppercase mb-20 tracking-tighter"
+            className="text-4xl md:text-[64px] font-[700] text-[#2D2D2D] leading-[1] uppercase mb-20 tracking-wide"
           >
             Clientes perdidos, <br /> vendas perdidas!
           </motion.h2>
@@ -220,7 +220,7 @@ export default function Home() {
                 <h2 className="text-4xl md:text-5xl text-[#2D2D2D] leading-[1.1] uppercase">
                   Por que investir na <br />
                   <span className="font-medium text-black">Cuattro</span>{" "} 
-                  <span className="font-black text-[#E5AB3C]">Lift & Learn?</span>
+                  <span className="font-black font-[700]">Lift & Learn?</span>
                 </h2>
               </motion.div>
 
