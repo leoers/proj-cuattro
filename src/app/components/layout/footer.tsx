@@ -61,7 +61,7 @@ export default function FooterRD() {
               { label: 'empresa', id: 'empresa', type: 'text' }
             ].map((field) => (
               <div key={field.id} className="flex items-center border border-gray-800 rounded-full px-6 py-3">
-                <span className="text-[#2D2D2D] font-bold mr-2 whitespace-nowrap text-sm">{field.label} &gt;</span>
+                <span className="text-[#2D2D2D] font-bold mr-2 whitespace-nowrap text-sm">{field.label} :</span>
                 <input
                   type={field.type}
                   required
@@ -73,7 +73,7 @@ export default function FooterRD() {
             ))}
 
             <div className="flex flex-col border border-gray-800 rounded-[20px] px-6 py-4">
-              <span className="text-[#2D2D2D] font-bold mb-2 text-sm">mensagem &gt;</span>
+              <span className="text-[#2D2D2D] font-bold mb-2 text-sm">mensagem :</span>
               <textarea
                 rows={3}
                 className="bg-transparent outline-none w-full text-slate-600 resize-none"

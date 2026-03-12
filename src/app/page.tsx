@@ -61,28 +61,33 @@ export default function Home() {
             Veja como funciona:
           </h2>
 
-          <div className="max-w-[1800px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-14 px-0 -mb-32 relative z-20">
+          <div className="max-w-[1800px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-14 px-6 -mb-32 relative z-20">
+            {/* Ajuste no px-6 acima para o texto não colar nas bordas em telas menores */}
+
             <VideoCard 
-              title="Sensor Inteligente"
-              description="Tag inteligente conectada aos produtos da loja."
+              title="SMART TAG"
+              description={<>Tag inteligente<br /> conectada aos<br /> produtos da loja.</>}
               videoUrl="/videos/vinho.mp4"
               iconPath="/images/ui/icone-sensor.png"
             />
+
             <VideoCard 
-              title="Lift Ação do Cliente"
+              title={<>LIFT:<br />AÇÃO DO CLIENTE</>}
               description="Cliente levanta o produto, ativando o sistema automaticamente."
               videoUrl="/videos/lift.mp4"
               iconPath="/images/ui/icone-lift.png"
             />
+
             <VideoCard 
-              title="Learn Conteúdo na Tela"
+              title={<>LEARN:<br />CONTEÚDO NA TELA</>}
               description="Conteúdo personalizado aparece na tela, instantaneamente."
               videoUrl="/videos/learn.mp4"
               iconPath="/images/ui/icone-learn.png"
             />
+
             <VideoCard 
-              title="Conversão em Vendas"
-              description="Mais informação, mais confiança, mais vendas no PDV."
+              title="CONVERSÃO"
+              description={<>Conversão<br />em vendas no PDV.</>}
               videoUrl="/videos/vendas.mp4"
               iconPath="/images/ui/icone-conversao.png"
             />
@@ -104,29 +109,57 @@ export default function Home() {
           </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
-            <div className="flex gap-8">
-              <div className="bg-[#ffee5a] rounded-[30px] p-8 flex flex-col justify-between items-center min-w-[160px] h-fit">
-                <motion.span initial={{ opacity: 0, scale: 0.5 }} whileInView={{ opacity: 1, scale: 1 }} transition={{ delay: 0.3 }} className="block text-4xl font-[900] text-[#2D2D2D]">+30%</motion.span>
-                <motion.span initial={{ opacity: 0, scale: 0.5 }} whileInView={{ opacity: 1, scale: 1 }} transition={{ delay: 0.5 }} className="block text-4xl font-[900] text-[#2D2D2D] my-12">3x</motion.span>
-                <motion.span initial={{ opacity: 0, scale: 0.5 }} whileInView={{ opacity: 1, scale: 1 }} transition={{ delay: 0.7 }} className="block text-4xl font-[900] text-[#2D2D2D]">70%</motion.span>
+            {/* COLUNA DA ESQUERDA */}
+            <div className="flex flex-col gap-10 md:gap-0"> {/* Gap apenas no mobile */}
+              
+              {/* ITEM 1 */}
+              <div className="flex flex-col md:flex-row items-center md:items-center gap-6 md:gap-8">
+                <div className="bg-[#ffee5a] rounded-[30px] md:rounded-none md:rounded-t-[30px] p-6 flex items-center justify-center min-w-[160px] h-[110px] shrink-0">
+                  <motion.span initial={{ opacity: 0, scale: 0.5 }} whileInView={{ opacity: 1, scale: 1 }} transition={{ delay: 0.3 }} className="text-4xl font-[700] text-[#2D2D2D]">
+                    +30%
+                  </motion.span>
+                </div>
+                <div className="text-center md:text-left">
+                  <h4 className="font-bold text-xl text-[#2D2D2D] leading-tight">de aumento nas vendas</h4>
+                  <p className="text-sm text-slate-500 max-w-[300px] mt-1">
+                    podem ser gerados com o uso de tecnologias interativas.
+                  </p>
+                </div>
               </div>
 
-              <div className="flex flex-col justify-between py-2">
-                <div>
-                  <h4 className="font-bold text-xl text-[#2D2D2D]">de aumento nas vendas</h4>
-                  <p className="text-sm text-slate-500 max-w-[300px]">podem ser gerados com o uso de displays digitais e tecnologias interativas no ponto de venda.</p>
+              {/* ITEM 2 */}
+              <div className="flex flex-col md:flex-row items-center md:items-center gap-6 md:gap-8">
+                <div className="bg-[#ffee5a] rounded-[30px] md:rounded-none p-6 flex items-center justify-center min-w-[160px] h-[110px] shrink-0 md:border-y md:border-black/5">
+                  <motion.span initial={{ opacity: 0, scale: 0.5 }} whileInView={{ opacity: 1, scale: 1 }} transition={{ delay: 0.5 }} className="text-4xl font-[700] text-[#2D2D2D]">
+                    3x
+                  </motion.span>
                 </div>
-                <div className="my-8">
-                  <h4 className="font-bold text-xl text-[#2D2D2D]">mais atenção</h4>
-                  <p className="text-sm text-slate-500 max-w-[300px]">é capturada por telas interativas em comparação à comunicação estática tradicional.</p>
-                </div>
-                <div>
-                  <h4 className="font-bold text-xl text-[#2D2D2D]">das decisões de compra</h4>
-                  <p className="text-sm text-slate-500 max-w-[300px]">são influenciadas diretamente no ponto de venda por estímulos visuais e experiência interativa.</p>
+                <div className="text-center md:text-left">
+                  <h4 className="font-bold text-xl text-[#2D2D2D] leading-tight">mais atenção</h4>
+                  <p className="text-sm text-slate-500 max-w-[300px] mt-1">
+                    capturada por telas interativas no PDV.
+                  </p>
                 </div>
               </div>
+
+              {/* ITEM 3 */}
+              <div className="flex flex-col md:flex-row items-center md:items-center gap-6 md:gap-8">
+                <div className="bg-[#ffee5a] rounded-[30px] md:rounded-none md:rounded-b-[30px] p-6 flex items-center justify-center min-w-[160px] h-[110px] shrink-0">
+                  <motion.span initial={{ opacity: 0, scale: 0.5 }} whileInView={{ opacity: 1, scale: 1 }} transition={{ delay: 0.7 }} className="text-4xl font-[700] text-[#2D2D2D]">
+                    70%
+                  </motion.span>
+                </div>
+                <div className="text-center md:text-left">
+                  <h4 className="font-bold text-xl text-[#2D2D2D] leading-tight">das decisões de compra</h4>
+                  <p className="text-sm text-slate-500 max-w-[300px] mt-1">
+                    são influenciadas diretamente no ponto de venda.
+                  </p>
+                </div>
+              </div>
+
             </div>
 
+            {/* COLUNA DA DIREITA: Texto institucional */}
             <div className="flex flex-col justify-center">
               <p className="text-lg text-slate-600 leading-relaxed mb-8">
                 O <span className="font-bold text-[#2D2D2D]">Lift & Learn</span> é uma solução de smart retail experience que conecta produtos físicos a conteúdos digitais em tempo real.
@@ -134,7 +167,11 @@ export default function Home() {
               <p className="text-lg text-slate-600 leading-relaxed mb-12">
                 Ao levantar o produto, o cliente ativa automaticamente uma tela com vídeos, especificações, diferenciais e promoções, sem precisar de QR codes ou aplicativo.
               </p>
-              <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="bg-[#FF9D1C] hover:bg-[#e68a10] text-white font-[900] uppercase tracking-widest py-5 px-12 rounded-full w-fit transition-all shadow-lg text-lg">
+              <motion.button 
+                whileHover={{ scale: 1.05 }} 
+                whileTap={{ scale: 0.95 }} 
+                className="bg-[#FF9D1C] hover:bg-[#e68a10] text-white font-[700] uppercase tracking-widest py-5 px-12 rounded-full w-fit transition-all shadow-lg text-lg"
+              >
                 saiba mais
               </motion.button>
             </div>
@@ -179,7 +216,7 @@ export default function Home() {
                   <div className="w-4 h-4 rounded-full bg-[#FF9D1C] mt-2 shrink-0" />
                   <div>
                     <p className="text-lg text-slate-600 leading-tight">
-                      <span className="font-[900] text-[#2D2D2D]">{item.perc}</span> {item.txt}
+                      <span className="font-[700] text-[#2D2D2D]">{item.perc}</span> {item.txt}
                     </p>
                     <span className="text-[10px] text-slate-400 uppercase font-bold tracking-widest mt-1 block">fonte: {item.fonte}</span>
                   </div>
@@ -299,17 +336,13 @@ export default function Home() {
   {/* 1. Título */}
   <div className="relative z-20 mb-16 text-center">
     <h2 className="text-white text-3xl font-light uppercase tracking-[0.2em]">
-      Kit <span className="font-black">Lift & Learn</span>
+      TECNOLOGIA <span className="font-black">Lift & Learn</span>
     </h2>
   </div>
 
   {/* 2. BACKGROUND COM AJUSTE DE ALTURA E DEGRADÊ SUPER INTENSO NO TOPO */}
   <div 
     className="absolute inset-0 top-[100px] z-0 overflow-hidden"
-    /* AJUSTE DE MÁSCARA: 
-       Aumentamos o intervalo transparente no topo (0% a 20%) para garantir que a borda 
-       da imagem não apareça de jeito nenhum sob o título.
-    */
     style={{
       WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, transparent 20%, black 30%, black 70%, transparent 100%)',
       maskImage: 'linear-gradient(to bottom, transparent 0%, transparent 20%, black 30%, black 70%, transparent 100%)'
@@ -321,31 +354,21 @@ export default function Home() {
         alt="Background Loja"
         className="w-full h-full object-cover opacity-40 mix-blend-multiply relative -z-10" 
       />
-      
-      {/* AJUSTE DE INTENSIDADE: 
-          Subimos para 250px de altura de sombra e 150px de blur para criar uma "névoa" 
-          laranja impenetrável no topo da imagem.
-      */}
       <div className="absolute inset-0 shadow-[inset_0_250px_150px_-20px_#E5AB3C,inset_0_-120px_100px_-20px_#E5AB3C]" />
     </div>
   </div>
 
   {/* 3. Container dos Boxes */}
   <div className="max-w-[1750px] mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-8 relative z-10 items-stretch w-full">
+    
     <KitItem 
-      title="Sensores adicionais wireless"
-      description="Até 50 tags reutilizáveis por cada controle. É só plugar e ligar!"
-      imagePath="/images/cases/wireless.png"
-      delay={0.1}
-    />
-    <KitItem 
-      title="Sensor menor que uma tampinha!"
+      title="SMART TAGS WIRELESS ADICIONAIS"
       description="Tags wireless. Uso 24/7 com bateria que dura 2 anos"
       imagePath="/images/cases/tampa-sensor.png"
       delay={0.1}
     />
     <KitItem 
-      title="Controle USB compacto"
+      title="SMART TRIGGER"
       description="Aciona conteúdos na tela com base em interações dos produtos"
       imagePath="/images/cases/usb.png"
       delay={0.1}
@@ -354,6 +377,12 @@ export default function Home() {
       title="Media Player"
       description="1 M de Cabo Fornecido. Dimensão: 80×30×19 mm"
       imagePath="/images/cases/media-player.png"
+      delay={0.1}
+    />
+    <KitItem 
+      title="SMART TAGS ADICIONAIS"
+      description="Até 50 tags reutilizáveis por cada controle. É só plugar e ligar!"
+      imagePath="/images/cases/wireless.png"
       delay={0.1}
     />
   </div>

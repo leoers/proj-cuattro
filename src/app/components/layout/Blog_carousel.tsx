@@ -17,7 +17,7 @@ const ARTIGOS = [
 export default function BlogCarousel() {
   const [emblaRef, emblaApi] = useEmblaCarousel(
     { 
-      loop: true,           // Essencial para o giro infinito
+      loop: true,           
       align: 'start', 
       skipSnaps: false, 
       duration: 30 
@@ -31,13 +31,12 @@ export default function BlogCarousel() {
     ]
   );
 
-  // FUNÇÕES RESTAURADAS: Forçam o loop do 5º para o 1º slide
   const scrollPrev = useCallback(() => {
     if (emblaApi) {
       if (emblaApi.canScrollPrev()) {
         emblaApi.scrollPrev();
       } else {
-        emblaApi.scrollTo(ARTIGOS.length - 1); // Pula para o último se estiver no início
+        emblaApi.scrollTo(ARTIGOS.length - 1);
       }
     }
   }, [emblaApi]);
@@ -47,17 +46,18 @@ export default function BlogCarousel() {
       if (emblaApi.canScrollNext()) {
         emblaApi.scrollNext();
       } else {
-        emblaApi.scrollTo(0); // Pula para o primeiro se estiver no final (Slide 5 -> 1)
+        emblaApi.scrollTo(0);
       }
     }
   }, [emblaApi]);
 
   return (
     <section className="relative z-40 w-full bg-transparent overflow-visible -mt-32">
-      {/* Fundo branco que começa após a sobreposição para não cortar o degradê */}
+      {/* Fundo branco que começa após a sobreposição */}
       <div className="absolute inset-0 top-[150px] bg-white z-0" />
 
-      <div className="max-w-[1750px] mx-auto px-6 relative z-50 pb-20">
+      {/* AJUSTE: pt-16 adicionado abaixo para descer o conteúdo em relação ao box de cima */}
+      <div className="max-w-[1750px] mx-auto px-6 relative z-50 pt-10 pb-20">
         
         <motion.h2 
           className="text-white text-3xl font-bold mb-10 ml-2 drop-shadow-[0_2px_15px_rgba(0,0,0,0.6)]"
@@ -86,7 +86,7 @@ export default function BlogCarousel() {
           </div>
         </div>
 
-        {/* Controles com Z-INDEX corrigido para funcionar sobre o fundo transparente */}
+        {/* Controles */}
         <div className="flex justify-center gap-6 mt-12 relative z-50">
           <button 
             onClick={scrollPrev}
