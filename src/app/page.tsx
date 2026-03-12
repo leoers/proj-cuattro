@@ -5,6 +5,11 @@ import { useRef } from 'react';
 import Image from 'next/image';
 import VideoCard from '../app/components/VideoCard';
 import AnimateCurve from '../app/components/layout/animatecurve';
+import FeatureCard from '../app/components/layout/featuredCard';
+import KitItem from '../app/components/layout/kitItem';
+import Carousel from '../app/components/layout/Blog_carousel';
+import NewsletterRD from '../app/components/layout/newsletter';
+import FooterRD from '../app/components/layout/footer';
 
 export default function Home() {
   // Referência para controlar o desenho da curva na Seção 3
@@ -56,29 +61,29 @@ export default function Home() {
             Veja como funciona:
           </h2>
 
-          <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-6 px-4 -mb-32 relative z-20">
+          <div className="max-w-[1800px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-14 px-0 -mb-32 relative z-20">
             <VideoCard 
               title="Sensor Inteligente"
               description="Tag inteligente conectada aos produtos da loja."
-              videoUrl="/videos/teste.mp4"
+              videoUrl="/videos/vinho.mp4"
               iconPath="/images/ui/icone-sensor.png"
             />
             <VideoCard 
               title="Lift Ação do Cliente"
               description="Cliente levanta o produto, ativando o sistema automaticamente."
-              videoUrl="/videos/teste.mp4"
+              videoUrl="/videos/lift.mp4"
               iconPath="/images/ui/icone-lift.png"
             />
             <VideoCard 
               title="Learn Conteúdo na Tela"
               description="Conteúdo personalizado aparece na tela, instantaneamente."
-              videoUrl="/videos/teste.mp4"
+              videoUrl="/videos/learn.mp4"
               iconPath="/images/ui/icone-learn.png"
             />
             <VideoCard 
               title="Conversão em Vendas"
               description="Mais informação, mais confiança, mais vendas no PDV."
-              videoUrl="/videos/teste.mp4"
+              videoUrl="/videos/vendas.mp4"
               iconPath="/images/ui/icone-conversao.png"
             />
           </div>
@@ -199,6 +204,165 @@ export default function Home() {
           </div>
         </div>
       </section>
+      {/* SEÇÃO: POR QUE INVESTIR NA CUATTRO? */}
+        <section className="bg-[#F8F9FA] py-24 px-6 overflow-hidden">
+          <div className="max-w-7xl mx-auto">
+            
+            <div className="relative mb-16 flex items-center justify-between w-full">
+              
+              {/* LADO ESQUERDO: TEXTO EM DUAS LINHAS */}
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                className="flex-1"
+              >
+                <h2 className="text-4xl md:text-5xl text-[#2D2D2D] leading-[1.1] uppercase">
+                  Por que investir na <br />
+                  <span className="font-medium text-black">Cuattro</span>{" "} 
+                  <span className="font-black text-[#E5AB3C]">Lift & Learn?</span>
+                </h2>
+              </motion.div>
+
+              {/* LADO DIREITO: ÍCONE PNG */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: 0.2 }}
+                className="ml-4 shrink-0" // shrink-0 impede que o ícone seja amassado
+              >
+                <img 
+                  src="/images/ui/icone-investir.png" 
+                  alt="Ícone de Performance"
+                  className="w-16 h-auto md:w-24 object-contain" 
+                />
+              </motion.div>
+            </div>
+
+            {/* Grid de Cards */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              <FeatureCard 
+                title="Sem obras!" 
+                description="Instalação simples e rápida para educar o consumidor de forma autônoma."
+                delay={0.1}
+              />
+              <FeatureCard 
+                title="Escalabilidade" 
+                description="Para 1 ou centenas de lojas, sem aumento de equipe com gestão centralizada."
+                titleColor="#E5AB3C"
+                delay={0.2}
+              />
+              <FeatureCard 
+                title="Métricas reais" 
+                description="Comparação de tempo de interação com produto, dados demográficos e mais!"
+                titleColor="#00D2A0"
+                delay={0.3}
+              />
+              <FeatureCard 
+                title="Gestão de Mídia" 
+                description="Comunicação ultra personalizada, geolocalizada por produto, categoria..."
+                titleColor="#A855F7"
+                delay={0.4}
+              />
+              <FeatureCard 
+                title="Descomplique!" 
+                description="Ideal para produtos complexos, lançamentos e venda consultiva."
+                titleColor="#E5AB3C"
+                delay={0.5}
+              />
+              <FeatureCard 
+                title="+Engajamento" 
+                description="Maior retenção de atenção e interação com produto gerando curiosidade."
+                titleColor="#2563EB"
+                delay={0.6}
+              />
+              <FeatureCard 
+                title="Físico + Digital" 
+                description="QR codes que levam para reviews, vídeos, cadastros, WhatsApp e venda on-line."
+                titleColor="#EF4444"
+                delay={0.7}
+              />
+              <FeatureCard 
+                title="Validada" 
+                description="Tecnologia validada por grandes marcas globais e performance comprovada!"
+                delay={0.8}
+              />
+            </div>
+          </div>
+        </section>
+      {/* SEÇÃO KIT LIFT & LEARN */}
+<section className="py-24 relative overflow-visible flex flex-col items-center
+  /* Mantém o laranja sólido até quase o fim, fundindo com o transparente no finalzinho */
+  bg-gradient-to-b from-[#E5AB3C] from-0% via-[#E5AB3C] via-90% to-transparent to-100%">
+  
+  {/* 1. Título */}
+  <div className="relative z-20 mb-16 text-center">
+    <h2 className="text-white text-3xl font-light uppercase tracking-[0.2em]">
+      Kit <span className="font-black">Lift & Learn</span>
+    </h2>
+  </div>
+
+  {/* 2. BACKGROUND COM AJUSTE DE ALTURA E DEGRADÊ SUPER INTENSO NO TOPO */}
+  <div 
+    className="absolute inset-0 top-[100px] z-0 overflow-hidden"
+    /* AJUSTE DE MÁSCARA: 
+       Aumentamos o intervalo transparente no topo (0% a 20%) para garantir que a borda 
+       da imagem não apareça de jeito nenhum sob o título.
+    */
+    style={{
+      WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, transparent 20%, black 30%, black 70%, transparent 100%)',
+      maskImage: 'linear-gradient(to bottom, transparent 0%, transparent 20%, black 30%, black 70%, transparent 100%)'
+    }}
+  >
+    <div className="relative w-full h-full">
+      <img 
+        src="/images/cases/kit-lift-bg.png" 
+        alt="Background Loja"
+        className="w-full h-full object-cover opacity-40 mix-blend-multiply relative -z-10" 
+      />
+      
+      {/* AJUSTE DE INTENSIDADE: 
+          Subimos para 250px de altura de sombra e 150px de blur para criar uma "névoa" 
+          laranja impenetrável no topo da imagem.
+      */}
+      <div className="absolute inset-0 shadow-[inset_0_250px_150px_-20px_#E5AB3C,inset_0_-120px_100px_-20px_#E5AB3C]" />
+    </div>
+  </div>
+
+  {/* 3. Container dos Boxes */}
+  <div className="max-w-[1750px] mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-8 relative z-10 items-stretch w-full">
+    <KitItem 
+      title="Sensores adicionais wireless"
+      description="Até 50 tags reutilizáveis por cada controle. É só plugar e ligar!"
+      imagePath="/images/cases/wireless.png"
+      delay={0.1}
+    />
+    <KitItem 
+      title="Sensor menor que uma tampinha!"
+      description="Tags wireless. Uso 24/7 com bateria que dura 2 anos"
+      imagePath="/images/cases/tampa-sensor.png"
+      delay={0.1}
+    />
+    <KitItem 
+      title="Controle USB compacto"
+      description="Aciona conteúdos na tela com base em interações dos produtos"
+      imagePath="/images/cases/usb.png"
+      delay={0.1}
+    />
+    <KitItem 
+      title="Media Player"
+      description="1 M de Cabo Fornecido. Dimensão: 80×30×19 mm"
+      imagePath="/images/cases/media-player.png"
+      delay={0.1}
+    />
+  </div>
+    </section>
+        <section>
+          <Carousel />
+        </section>
+        <NewsletterRD />
+        <FooterRD />
     </main>
   );
 }
