@@ -3,6 +3,7 @@
 import { motion, useScroll, useSpring } from 'framer-motion';
 import { useRef } from 'react';
 import Image from 'next/image';
+import Script from 'next/script'; // Importado para integrar o loader do RD
 import VideoCard from '../app/components/VideoCard';
 import AnimateCurve from '../app/components/layout/animatecurve';
 import FeatureCard from '../app/components/layout/featuredCard';
@@ -17,8 +18,6 @@ export default function Home() {
   
   const { scrollYProgress } = useScroll({
     target: section3Ref,
-    // AJUSTE: O traço começa ("start") quando a seção entra na tela ("end")
-    // e termina quando o centro da seção chega no topo. Isso faz o traço subir rápido.
     offset: ["start end", "center start"]
   });
 
@@ -31,6 +30,12 @@ export default function Home() {
 
   return (
     <main className="min-h-screen">
+      {/* INTEGRÇÃO RD STATION: Loader oficial do cliente */}
+      <Script 
+        src="https://d335luupugsy2.cloudfront.net/js/loader-scripts/f1a378e4-97d0-427e-a74b-21e94286aa54-loader.js" 
+        strategy="afterInteractive" 
+      />
+
       {/* 1. HEADER CENTRALIZADO */}
       <header className="w-full flex justify-center items-center px-8 py-10 absolute top-0 z-50">
         <div className="relative w-40 h-12">
@@ -62,8 +67,6 @@ export default function Home() {
           </h2>
 
           <div className="max-w-[1800px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-14 px-6 -mb-32 relative z-20">
-            {/* Ajuste no px-6 acima para o texto não colar nas bordas em telas menores */}
-
             <VideoCard 
               title="SMART TAG"
               description={<>Tag inteligente<br /> conectada aos<br /> produtos da loja.</>}
@@ -109,10 +112,7 @@ export default function Home() {
           </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
-            {/* COLUNA DA ESQUERDA */}
-            <div className="flex flex-col gap-10 md:gap-0"> {/* Gap apenas no mobile */}
-              
-              {/* ITEM 1 */}
+            <div className="flex flex-col gap-10 md:gap-0">
               <div className="flex flex-col md:flex-row items-center md:items-center gap-6 md:gap-8">
                 <div className="bg-[#ffee5a] rounded-[30px] md:rounded-none md:rounded-t-[30px] p-6 flex items-center justify-center min-w-[160px] h-[110px] shrink-0">
                   <motion.span initial={{ opacity: 0, scale: 0.5 }} whileInView={{ opacity: 1, scale: 1 }} transition={{ delay: 0.3 }} className="text-4xl font-[700] text-[#2D2D2D]">
@@ -127,7 +127,6 @@ export default function Home() {
                 </div>
               </div>
 
-              {/* ITEM 2 */}
               <div className="flex flex-col md:flex-row items-center md:items-center gap-6 md:gap-8">
                 <div className="bg-[#ffee5a] rounded-[30px] md:rounded-none p-6 flex items-center justify-center min-w-[160px] h-[110px] shrink-0 md:border-y md:border-black/5">
                   <motion.span initial={{ opacity: 0, scale: 0.5 }} whileInView={{ opacity: 1, scale: 1 }} transition={{ delay: 0.5 }} className="text-4xl font-[700] text-[#2D2D2D]">
@@ -142,7 +141,6 @@ export default function Home() {
                 </div>
               </div>
 
-              {/* ITEM 3 */}
               <div className="flex flex-col md:flex-row items-center md:items-center gap-6 md:gap-8">
                 <div className="bg-[#ffee5a] rounded-[30px] md:rounded-none md:rounded-b-[30px] p-6 flex items-center justify-center min-w-[160px] h-[110px] shrink-0">
                   <motion.span initial={{ opacity: 0, scale: 0.5 }} whileInView={{ opacity: 1, scale: 1 }} transition={{ delay: 0.7 }} className="text-4xl font-[700] text-[#2D2D2D]">
@@ -156,10 +154,8 @@ export default function Home() {
                   </p>
                 </div>
               </div>
-
             </div>
 
-            {/* COLUNA DA DIREITA: Texto institucional */}
             <div className="flex flex-col justify-center">
               <p className="text-lg text-slate-600 leading-relaxed mb-8">
                 O <span className="font-bold text-[#2D2D2D]">Lift & Learn</span> é uma solução de smart retail experience que conecta produtos físicos a conteúdos digitais em tempo real.
@@ -179,15 +175,13 @@ export default function Home() {
         </motion.div>
       </section>
 
-      {/* 5. SEÇÃO 3: DORES DO VAREJO - CORREÇÃO COM MÁSCARA */}
+      {/* 5. SEÇÃO 3: DORES DO VAREJO */}
       <section ref={section3Ref} className="relative bg-white py-32 px-6 overflow-hidden min-h-screen flex flex-col justify-center">
-        
         <div className="absolute top-20 left-1/2 -translate-x-1/2 w-[90%] md:w-[70%] max-w-7xl z-0 pointer-events-none">
           <AnimateCurve pathLength={pathLength} />
         </div>
 
         <div className="max-w-7xl mx-auto relative z-10 w-full">
-          {/* TÍTULO COM FADE */}
           <motion.h2 
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -241,157 +235,92 @@ export default function Home() {
           </div>
         </div>
       </section>
+
       {/* SEÇÃO: POR QUE INVESTIR NA CUATTRO? */}
-        <section className="bg-[#F8F9FA] py-24 px-6 overflow-hidden">
-          <div className="max-w-7xl mx-auto">
-            
-            <div className="relative mb-16 flex items-center justify-between w-full">
-              
-              {/* LADO ESQUERDO: TEXTO EM DUAS LINHAS */}
-              <motion.div
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                className="flex-1"
-              >
-                <h2 className="text-4xl md:text-5xl text-[#2D2D2D] leading-[1.1] uppercase">
-                  Por que investir na <br />
-                  <span className="font-medium text-black">Cuattro</span>{" "} 
-                  <span className="font-black font-[700]">Lift & Learn?</span>
-                </h2>
-              </motion.div>
+      <section className="bg-[#F8F9FA] py-24 px-6 overflow-hidden">
+        <div className="max-w-7xl mx-auto">
+          <div className="relative mb-16 flex items-center justify-between w-full">
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              className="flex-1"
+            >
+              <h2 className="text-4xl md:text-5xl text-[#2D2D2D] leading-[1.1] uppercase">
+                Por que investir na <br />
+                <span className="font-medium text-black">Cuattro</span>{" "} 
+                <span className="font-black font-[700]">Lift & Learn?</span>
+              </h2>
+            </motion.div>
 
-              {/* LADO DIREITO: ÍCONE PNG */}
-              <motion.div
-                initial={{ opacity: 0, scale: 0.8 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 0.2 }}
-                className="ml-4 shrink-0" // shrink-0 impede que o ícone seja amassado
-              >
-                <img 
-                  src="/images/ui/icone-investir.png" 
-                  alt="Ícone de Performance"
-                  className="w-16 h-auto md:w-24 object-contain" 
-                />
-              </motion.div>
-            </div>
-
-            {/* Grid de Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              <FeatureCard 
-                title="Sem obras!" 
-                description="Instalação simples e rápida para educar o consumidor de forma autônoma."
-                delay={0.1}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="ml-4 shrink-0"
+            >
+              <img 
+                src="/images/ui/icone-investir.png" 
+                alt="Ícone de Performance"
+                className="w-16 h-auto md:w-24 object-contain" 
               />
-              <FeatureCard 
-                title="Escalabilidade" 
-                description="Para 1 ou centenas de lojas, sem aumento de equipe com gestão centralizada."
-                titleColor="#E5AB3C"
-                delay={0.2}
-              />
-              <FeatureCard 
-                title="Métricas reais" 
-                description="Comparação de tempo de interação com produto, dados demográficos e mais!"
-                titleColor="#00D2A0"
-                delay={0.3}
-              />
-              <FeatureCard 
-                title="Gestão de Mídia" 
-                description="Comunicação ultra personalizada, geolocalizada por produto, categoria..."
-                titleColor="#A855F7"
-                delay={0.4}
-              />
-              <FeatureCard 
-                title="Descomplique!" 
-                description="Ideal para produtos complexos, lançamentos e venda consultiva."
-                titleColor="#E5AB3C"
-                delay={0.5}
-              />
-              <FeatureCard 
-                title="+Engajamento" 
-                description="Maior retenção de atenção e interação com produto gerando curiosidade."
-                titleColor="#2563EB"
-                delay={0.6}
-              />
-              <FeatureCard 
-                title="Físico + Digital" 
-                description="QR codes que levam para reviews, vídeos, cadastros, WhatsApp e venda on-line."
-                titleColor="#EF4444"
-                delay={0.7}
-              />
-              <FeatureCard 
-                title="Validada" 
-                description="Tecnologia validada por grandes marcas globais e performance comprovada!"
-                delay={0.8}
-              />
-            </div>
+            </motion.div>
           </div>
-        </section>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <FeatureCard title="Sem obras!" description="Instalação simples e rápida para educar o consumidor de forma autônoma." delay={0.1} />
+            <FeatureCard title="Escalabilidade" description="Para 1 ou centenas de lojas, sem aumento de equipe com gestão centralizada." titleColor="#E5AB3C" delay={0.2} />
+            <FeatureCard title="Métricas reais" description="Comparação de tempo de interação com produto, dados demográficos e mais!" titleColor="#00D2A0" delay={0.3} />
+            <FeatureCard title="Gestão de Mídia" description="Comunicação ultra personalizada, geolocalizada por produto, categoria..." titleColor="#A855F7" delay={0.4} />
+            <FeatureCard title="Descomplique!" description="Ideal para produtos complexos, lançamentos e venda consultiva." titleColor="#E5AB3C" delay={0.5} />
+            <FeatureCard title="+Engajamento" description="Maior retenção de atenção e interação com produto gerando curiosidade." titleColor="#2563EB" delay={0.6} />
+            <FeatureCard title="Físico + Digital" description="QR codes que levam para reviews, vídeos, cadastros, WhatsApp e venda on-line." titleColor="#EF4444" delay={0.7} />
+            <FeatureCard title="Validada" description="Tecnologia validada por grandes marcas globais e performance comprovada!" delay={0.8} />
+          </div>
+        </div>
+      </section>
+
       {/* SEÇÃO KIT LIFT & LEARN */}
-<section className="py-24 relative overflow-visible flex flex-col items-center
-  /* Mantém o laranja sólido até quase o fim, fundindo com o transparente no finalzinho */
-  bg-gradient-to-b from-[#E5AB3C] from-0% via-[#E5AB3C] via-90% to-transparent to-100%">
-  
-  {/* 1. Título */}
-  <div className="relative z-20 mb-16 text-center">
-    <h2 className="text-white text-3xl font-light uppercase tracking-[0.2em]">
-      TECNOLOGIA <span className="font-black">Lift & Learn</span>
-    </h2>
-  </div>
+      <section className="py-24 relative overflow-visible flex flex-col items-center bg-gradient-to-b from-[#E5AB3C] from-0% via-[#E5AB3C] via-90% to-transparent to-100%">
+        <div className="relative z-20 mb-16 text-center">
+          <h2 className="text-white text-3xl font-light uppercase tracking-[0.2em]">
+            TECNOLOGIA <span className="font-black">Lift & Learn</span>
+          </h2>
+        </div>
 
-  {/* 2. BACKGROUND COM AJUSTE DE ALTURA E DEGRADÊ SUPER INTENSO NO TOPO */}
-  <div 
-    className="absolute inset-0 top-[100px] z-0 overflow-hidden"
-    style={{
-      WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, transparent 20%, black 30%, black 70%, transparent 100%)',
-      maskImage: 'linear-gradient(to bottom, transparent 0%, transparent 20%, black 30%, black 70%, transparent 100%)'
-    }}
-  >
-    <div className="relative w-full h-full">
-      <img 
-        src="/images/cases/kit-lift-bg.png" 
-        alt="Background Loja"
-        className="w-full h-full object-cover opacity-40 mix-blend-multiply relative -z-10" 
-      />
-      <div className="absolute inset-0 shadow-[inset_0_250px_150px_-20px_#E5AB3C,inset_0_-120px_100px_-20px_#E5AB3C]" />
-    </div>
-  </div>
+        <div 
+          className="absolute inset-0 top-[100px] z-0 overflow-hidden"
+          style={{
+            WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, transparent 20%, black 30%, black 70%, transparent 100%)',
+            maskImage: 'linear-gradient(to bottom, transparent 0%, transparent 20%, black 30%, black 70%, transparent 100%)'
+          }}
+        >
+          <div className="relative w-full h-full">
+            <img 
+              src="/images/cases/kit-lift-bg.png" 
+              alt="Background Loja"
+              className="w-full h-full object-cover opacity-40 mix-blend-multiply relative -z-10" 
+            />
+            <div className="absolute inset-0 shadow-[inset_0_250px_150px_-20px_#E5AB3C,inset_0_-120px_100px_-20px_#E5AB3C]" />
+          </div>
+        </div>
 
-  {/* 3. Container dos Boxes */}
-  <div className="max-w-[1750px] mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-8 relative z-10 items-stretch w-full">
-    
-    <KitItem 
-      title="SMART TAGS WIRELESS ADICIONAIS"
-      description="Tags wireless. Uso 24/7 com bateria que dura 2 anos"
-      imagePath="/images/cases/tampa-sensor.png"
-      delay={0.1}
-    />
-    <KitItem 
-      title="SMART TRIGGER"
-      description="Aciona conteúdos na tela com base em interações dos produtos"
-      imagePath="/images/cases/usb.png"
-      delay={0.1}
-    />
-    <KitItem 
-      title="Media Player"
-      description="1 M de Cabo Fornecido. Dimensão: 80×30×19 mm"
-      imagePath="/images/cases/media-player.png"
-      delay={0.1}
-    />
-    <KitItem 
-      title="SMART TAGS ADICIONAIS"
-      description="Até 50 tags reutilizáveis por cada controle. É só plugar e ligar!"
-      imagePath="/images/cases/wireless.png"
-      delay={0.1}
-    />
-  </div>
-    </section>
-        <section>
-          <Carousel />
-        </section>
-        <NewsletterRD />
-        <FooterRD />
+        <div className="max-w-[1750px] mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-8 relative z-10 items-stretch w-full">
+          <KitItem title="SMART TAGS WIRELESS ADICIONAIS" description="Tags wireless. Uso 24/7 com bateria que dura 2 anos" imagePath="/images/cases/tampa-sensor.png" delay={0.1} />
+          <KitItem title="SMART TRIGGER" description="Aciona conteúdos na tela com base em interações dos produtos" imagePath="/images/cases/usb.png" delay={0.1} />
+          <KitItem title="Media Player" description="1 M de Cabo Fornecido. Dimensão: 80×30×19 mm" imagePath="/images/cases/media-player.png" delay={0.1} />
+          <KitItem title="SMART TAGS ADICIONAIS" description="Até 50 tags reutilizáveis por cada controle. É só plugar e ligar!" imagePath="/images/cases/wireless.png" delay={0.1} />
+        </div>
+      </section>
+
+      <section>
+        <Carousel />
+      </section>
+
+      {/* COMPONENTES DE CONVERSÃO RD STATION */}
+      <NewsletterRD />
+      <FooterRD />
     </main>
   );
 }

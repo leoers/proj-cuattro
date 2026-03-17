@@ -4,6 +4,13 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 
+// Tipagem para evitar erros de TypeScript com o SDK global
+declare global {
+  interface Window {
+    RdIntegration: any;
+  }
+}
+
 export default function FooterRD() {
   const [formData, setFormData] = useState({
     nome: '',
@@ -18,18 +25,40 @@ export default function FooterRD() {
     e.preventDefault();
     setStatus('loading');
 
+    const identificador = 'lead_lift_learn';
+
     try {
+      // 1. Envio para sua API Route (Backup/Logs)
       const response = await fetch('/api/rd-station', {
         method: 'POST',
-        body: JSON.stringify({ ...formData, identificador: 'formulario-contato-footer' }),
+        body: JSON.stringify({ ...formData, identificador }),
         headers: { 'Content-Type': 'application/json' },
       });
+
+      // 2. Envio Direto para o RD Station via SDK Loader do cliente
+      if (typeof window !== 'undefined' && window.RdIntegration) {
+        window.RdIntegration.post([
+          { name: 'nome', value: formData.nome },
+          { name: 'email', value: formData.email },
+          { name: 'empresa', value: formData.empresa },
+          { name: 'mensagem', value: formData.mensagem },
+          { name: 'identificador', value: identificador },
+          { name: 'token_rd', value: 'f1a378e4-97d0-427e-a74b-21e94286aa54' }
+        ], () => {
+          console.log('RD Station: Lead de contato enviado.');
+        });
+      }
 
       if (response.ok) {
         setStatus('success');
         setFormData({ nome: '', email: '', empresa: '', mensagem: '', aceito: true });
-      } else { setStatus('error'); }
-    } catch (err) { setStatus('error'); }
+        setTimeout(() => setStatus('idle'), 5000);
+      } else { 
+        setStatus('error'); 
+      }
+    } catch (err) { 
+      setStatus('error'); 
+    }
   };
 
   return (
@@ -93,21 +122,26 @@ export default function FooterRD() {
                 Aceito receber contato
               </label>
               
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="bg-gradient-to-r from-[#ffee5a] to-[#FF9D1C] text-[#2D2D2D] font-black uppercase tracking-widest px-10 py-4 rounded-full shadow-lg flex items-center gap-2"
-              >
-                {status === 'loading' ? 'enviando...' : 'enviar >'}
-              </motion.button>
+              <div className="flex flex-col items-end gap-2">
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  disabled={status === 'loading'}
+                  className="bg-gradient-to-r from-[#ffee5a] to-[#FF9D1C] text-[#2D2D2D] font-black uppercase tracking-widest px-10 py-4 rounded-full shadow-lg flex items-center gap-2 disabled:opacity-50"
+                >
+                  {status === 'loading' ? 'enviando...' : 'enviar >'}
+                </motion.button>
+                {status === 'success' && <span className="text-green-600 text-[10px] font-bold">✓ Mensagem enviada!</span>}
+                {status === 'error' && <span className="text-red-500 text-[10px] font-bold">Erro ao enviar.</span>}
+              </div>
             </div>
           </form>
         </div>
       </div>
       
-      {/* Elemento Decorativo: Curva SVG que você enviou */}
+      {/* Elemento Decorativo: Curva SVG */}
       <div className="absolute top-0 right-0 w-1/2 opacity-20 pointer-events-none">
-         {/* Aqui você pode inserir o SVG da curva que ajustamos no início */}
+        <Image src="/images/ui/curva-bg.png" alt="" width={600} height={600} className="object-contain" />
       </div>
     </footer>
   );
