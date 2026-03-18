@@ -10,7 +10,7 @@ import FeatureCard from '../app/components/layout/featuredCard';
 import KitItem from '../app/components/layout/kitItem';
 import Carousel from '../app/components/layout/Blog_carousel';
 import NewsletterRD from '../app/components/layout/newsletter';
-import FooterRD from '../app/components/layout/footer';
+import FooterRD from './components/layout/footer';
 
 export default function Home() {
   // Referência para controlar o desenho da curva na Seção 3
