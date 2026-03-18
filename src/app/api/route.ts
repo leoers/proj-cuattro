@@ -1,12 +1,10 @@
 import { NextResponse } from 'next/server';
 
 export async function POST(req: Request) {
-  console.log(">>> Iniciando tentativa de envio para RD Station (V2)");
-
   try {
     const body = await req.json();
+    console.log(">>> Recebi os dados:", body);
 
-    // URL oficial para conversões v1 (a mais estável para esse token)
     const rdUrl = `https://api.rdstation.com.br/main/api/v1/conversions`;
 
     const formData = new URLSearchParams();
@@ -29,14 +27,13 @@ export async function POST(req: Request) {
     const result = await response.text();
 
     if (response.ok) {
-      console.log(">>> SUCESSO: Lead enviado para a RD Station!");
       return NextResponse.json({ success: true });
     } else {
-      console.error(">>> ERRO RETORNADO PELA RD:", result);
+      console.error(">>> ERRO DA RD:", result);
       return NextResponse.json({ success: false, error: result }, { status: 400 });
     }
   } catch (error: any) {
-    console.error(">>> ERRO CRÍTICO NO SERVIDOR:", error.message);
+    console.error(">>> ERRO CRÍTICO:", error.message);
     return NextResponse.json({ success: false, message: error.message }, { status: 500 });
   }
-} 
+} // <--- ESSA CHAVE É O QUE ESTAVA FALTANDO!
