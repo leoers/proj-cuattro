@@ -1,27 +1,27 @@
 import { NextResponse } from 'next/server';
 
+export const dynamic = 'force-dynamic';
+
 export async function POST(req: Request) {
   try {
     const body = await req.json();
 
-    // Esta URL 1.1 com o formato x-www-form-urlencoded é a mais estável da RD
-    const rdUrl = `https://www.rdstation.com.br/api/1.1/conversions`;
+    // URL v1.1 - A mais estável para RD Marketing (Painel que você enviou)
+    // Adicionamos um parâmetro aleatório para evitar cache no servidor da RD
+    const rdUrl = `https://www.rdstation.com.br/api/1.1/conversions?timestamp=${Date.now()}`;
 
-    // Montando os dados no formato que a RD entende (Formulário)
     const params = new URLSearchParams();
     params.append('token_rdstation', 'b91cc3a01e31193552fad70cdf8e2fc2');
-    params.append('identificador', 'lead_site_cuattro'); // Nome que aparecerá no painel
+    params.append('identificador', 'IDENTIFICADOR_TESTE_V4'); // Mudei para V4
     params.append('email', body.email);
     params.append('nome', body.nome);
     params.append('empresa', body.empresa || '');
     params.append('mensagem', body.mensagem || '');
-    params.append('aceito', body.aceito ? 'true' : 'false');
 
     const response = await fetch(rdUrl, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
-        'Accept': 'application/json'
       },
       body: params.toString(),
     });
@@ -31,7 +31,8 @@ export async function POST(req: Request) {
     if (response.ok) {
       return NextResponse.json({ success: true });
     } else {
-      console.error(">>> ERRO NA RD STATION:", result);
+      // Se der erro, vamos ver o texto puro da RD no log da Vercel
+      console.error("ERRO_RD_DETALHADO:", result);
       return NextResponse.json({ success: false, error: result }, { status: 400 });
     }
   } catch (error: any) {
