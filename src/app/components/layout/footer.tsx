@@ -19,7 +19,7 @@ export default function FooterRD() {
     setStatus('loading');
 
     try {
-      // Chamada para a nossa rota interna /api/route.ts
+      // Chamada para a rota interna do Next.js
       const response = await fetch('/api', { 
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -45,7 +45,7 @@ export default function FooterRD() {
     <footer id="footer" className="w-full bg-[#ffee5a] py-20 px-6 relative overflow-hidden">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
         
-        {/* Lado Esquerdo - Mantido original */}
+        {/* Lado Esquerdo */}
         <div className="relative z-10">
           <h2 className="text-4xl md:text-[64px] font-[700] text-[#2D2D2D] leading-[1] uppercase mb-8 tracking-wide">
             Quer ver a <br /> tecnologia <br /> funcionando <br /> na prática?
@@ -58,7 +58,7 @@ export default function FooterRD() {
           </div>
         </div>
 
-        {/* Lado Direito - Mantido original */}
+        {/* Lado Direito */}
         <div className="bg-white rounded-[40px] p-8 md:p-12 shadow-xl relative z-10">
           <h3 className="text-xl font-bold text-[#2D2D2D] mb-2">Solicite uma demonstração</h3>
           <p className="text-[#2D2D2D] mb-8 pb-2 border-b-2 border-[#ffee5a] w-fit">ou proposta personalizada</p>
@@ -99,7 +99,7 @@ export default function FooterRD() {
                   onChange={(e) => setFormData({...formData, aceito: e.target.checked})} 
                   className="accent-orange-500 w-4 h-4" 
                 />
-                Aceito receber contato
+                Aceito receber contatoo
               </label>
               
               <div className="flex flex-col items-end gap-2">
