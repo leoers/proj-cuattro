@@ -19,24 +19,25 @@ export default function FooterRD() {
     setStatus('loading');
 
     try {
-      // Chamada para a rota interna do Next.js
       const response = await fetch('/api', { 
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
       });
 
+      // Se a resposta for OK (Status 200)
       if (response.ok) {
         setStatus('success');
         setFormData({ nome: '', email: '', empresa: '', mensagem: '', aceito: true });
         setTimeout(() => setStatus('idle'), 5000);
       } else {
-        const errorData = await response.json();
-        console.error("Erro da API:", errorData);
+        // Tenta ler o erro, mas não trava se não for JSON
+        const errorData = await response.text();
+        console.error("Erro retornado pela API:", errorData);
         setStatus('error');
       }
     } catch (err) {
-      console.error("Erro crítico no envio:", err);
+      console.error("Erro crítico na requisição:", err);
       setStatus('error');
     }
   };
@@ -74,6 +75,7 @@ export default function FooterRD() {
                 <input
                   type={field.type}
                   required
+                  name={field.id}
                   className="bg-transparent outline-none w-full text-slate-600"
                   value={formData[field.id as keyof typeof formData] as string}
                   onChange={(e) => setFormData({...formData, [field.id]: e.target.value})}
@@ -85,6 +87,7 @@ export default function FooterRD() {
               <span className="text-[#2D2D2D] font-bold mb-2 text-sm">mensagem :</span>
               <textarea
                 rows={3}
+                name="mensagem"
                 className="bg-transparent outline-none w-full text-slate-600 resize-none"
                 value={formData.mensagem}
                 onChange={(e) => setFormData({...formData, mensagem: e.target.value})}
@@ -99,16 +102,16 @@ export default function FooterRD() {
                   onChange={(e) => setFormData({...formData, aceito: e.target.checked})} 
                   className="accent-orange-500 w-4 h-4" 
                 />
-                Aceito receber contato2
+                Aceito receber contato
               </label>
               
               <div className="flex flex-col items-end gap-2">
                 <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
+                  whileHover={{ scale: status === 'loading' ? 1 : 1.05 }}
+                  whileTap={{ scale: status === 'loading' ? 1 : 0.95 }}
                   disabled={status === 'loading'}
                   type="submit"
-                  className="bg-gradient-to-r from-[#ffee5a] to-[#FF9D1C] text-[#2D2D2D] font-black uppercase tracking-widest px-10 py-4 rounded-full shadow-lg flex items-center gap-2 disabled:opacity-50"
+                  className="bg-gradient-to-r from-[#ffee5a] to-[#FF9D1C] text-[#2D2D2D] font-black uppercase tracking-widest px-10 py-4 rounded-full shadow-lg flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {status === 'loading' ? 'enviando...' : 'enviar ›'}
                 </motion.button>
