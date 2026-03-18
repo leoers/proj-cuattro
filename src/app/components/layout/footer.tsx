@@ -48,7 +48,7 @@ export default function FooterRD() {
         {/* Lado Esquerdo */}
         <div className="relative z-10">
           <h2 className="text-4xl md:text-[64px] font-[700] text-[#2D2D2D] leading-[1] uppercase mb-8 tracking-wide">
-            Quer ver a <br /> tecnologia <br /> funcionando <br /> na prática?
+            Quer ver a <br /> tecnologia <br /> funcionando <br /> na prática? a
           </h2>
           <p className="text-xl text-[#2D2D2D] font-medium max-w-md mb-12 leading-relaxed">
             Fale com nossos especialistas e descubra como implementar o Lift & Learn no seu ponto de venda em poucas semanas.
