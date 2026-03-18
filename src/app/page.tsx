@@ -163,13 +163,14 @@ export default function Home() {
               <p className="text-lg text-slate-600 leading-relaxed mb-12">
                 Ao levantar o produto, o cliente ativa automaticamente uma tela com vídeos, especificações, diferenciais e promoções, sem precisar de QR codes ou aplicativo.
               </p>
-              <motion.button 
-                whileHover={{ scale: 1.05 }} 
-                whileTap={{ scale: 0.95 }} 
-                className="bg-[#FF9D1C] hover:bg-[#e68a10] text-white font-[700] uppercase tracking-widest py-5 px-12 rounded-full w-fit transition-all shadow-lg text-lg"
+              <motion.a
+                href="#footer"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="bg-[#FF9D1C] hover:bg-[#e68a10] text-white font-[700] uppercase tracking-widest py-5 px-12 rounded-full w-fit transition-all shadow-lg text-lg inline-block text-center cursor-pointer"
               >
                 saiba mais
-              </motion.button>
+              </motion.a>
             </div>
           </div>
         </motion.div>
@@ -320,7 +321,9 @@ export default function Home() {
 
       {/* COMPONENTES DE CONVERSÃO RD STATION */}
       <NewsletterRD />
-      <FooterRD />
+      <section id="footer">
+        <FooterRD />
+      </section>
     </main>
   );
 }

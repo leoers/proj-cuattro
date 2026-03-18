@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg version="1.1" id="Camada_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 1000 450" style="enable-background:new 0 0 1000 450;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:none;stroke:url(#SVGID_1_);stroke-width:24;stroke-linecap:round;stroke-miterlimit:10;}
+</style>
+<linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="26.73" y1="225" x2="973.27" y2="225">
+	<stop  offset="0" style="stop-color:#FFEB3B"/>
+	<stop  offset="1" style="stop-color:#FF9800"/>
+</linearGradient>
+<path class="st0" d="M26.7,225c0,0,188.7-183.3,316.3,0c127.7,183.3,316.3,0,316.3,0s188.7,183.3,313.7,0"/>
+</svg>

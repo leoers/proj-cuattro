@@ -62,7 +62,7 @@ export default function FooterRD() {
   };
 
   return (
-    <footer className="w-full bg-[#ffee5a] py-20 px-6 relative overflow-hidden">
+    <footer id="footer" className="w-full bg-[#ffee5a] py-20 px-6 relative overflow-hidden">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
         
         {/* Lado Esquerdo: Texto e Branding */}
@@ -129,7 +129,11 @@ export default function FooterRD() {
                   disabled={status === 'loading'}
                   className="bg-gradient-to-r from-[#ffee5a] to-[#FF9D1C] text-[#2D2D2D] font-black uppercase tracking-widest px-10 py-4 rounded-full shadow-lg flex items-center gap-2 disabled:opacity-50"
                 >
-                  {status === 'loading' ? 'enviando...' : 'enviar >'}
+                  {status === 'loading' ? 'enviando...' : (
+                    <span className="flex items-center gap-1">
+                      enviar <span className="text-lg leading-none">›</span>
+                    </span>
+                  )}
                 </motion.button>
                 {status === 'success' && <span className="text-green-600 text-[10px] font-bold">✓ Mensagem enviada!</span>}
                 {status === 'error' && <span className="text-red-500 text-[10px] font-bold">Erro ao enviar.</span>}

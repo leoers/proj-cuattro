@@ -16,21 +16,24 @@ export default function KitItem({ title, description, imagePath, delay }: KitIte
       viewport={{ once: true }}
       transition={{ duration: 0.8, delay }}
       whileHover={{ y: -15 }}
-      // h-full garante que todos ocupem a mesma altura do grid
-      className="flex flex-col items-center text-center p-6 cursor-pointer h-full"
+      // Card transparente para herdar o fundo laranja e o gradiente do pai
+      className="flex flex-col items-center text-center p-6 cursor-pointer h-full relative"
     >
-      {/* Container de Texto com altura fixa para alinhar os círculos */}
-      <div className="flex flex-col mb-10 h-[160px] justify-start">
-        <h3 className="text-white font-bold text-2xl mb-3 leading-tight uppercase tracking-tighter">
+      {/* CONTAINER DE TEXTO:
+          - Texto Branco (700) fixo.
+          - drop-shadow-[0_2px_8px_rgba(0,0,0,0.5)]: Sombra reforçada para leitura.
+      */}
+      <div className="flex flex-col mb-10 h-[160px] justify-start px-4 md:px-0 relative z-10">
+        <h3 className="text-white font-bold text-2xl mb-3 leading-tight uppercase tracking-tight drop-shadow-[0_2px_8px_rgba(0,0,0,0.5)]">
           {title}
         </h3>
-        <p className="text-white/90 text-sm leading-relaxed max-w-[240px] mx-auto">
+        <p className="text-white/95 text-sm leading-relaxed max-w-[240px] mx-auto font-medium drop-shadow-[0_1px_4px_rgba(0,0,0,0.4)]">
           {description}
         </p>
       </div>
 
-      {/* Círculo com tamanho fixo */}
-      <div className="w-60 h-60 rounded-full bg-white flex items-center justify-center p-6 shadow-2xl relative z-10">
+      {/* CÍRCULO DO PRODUTO */}
+      <div className="w-52 h-52 md:w-60 md:h-60 rounded-full bg-white flex items-center justify-center p-8 shadow-2xl relative z-10">
         <img 
           src={imagePath} 
           alt={title} 

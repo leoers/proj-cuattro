@@ -48,11 +48,11 @@ export default function BlogCarousel() {
     <section className="relative z-40 w-full bg-transparent overflow-visible -mt-32">
       <div className="absolute inset-0 top-[150px] bg-white z-0" />
 
-      <div className="max-w-[1750px] mx-auto px-6 relative z-50 pt-10 pb-20">
+      <div className="max-w-[1750px] mx-auto px-6 relative z-50 pt-10 pb-20 font-[700]">
         <motion.h2 
           initial={{ opacity: 0, x: -20 }}
           whileInView={{ opacity: 1, x: 0 }}
-          className="text-[#2D2D2D] md:text-white text-3xl font-bold mb-10 ml-2"
+          className="text-[#fff] md:text-white text-3xl font-bold mb-10 ml-2"
         >
           Leia mais sobre:
         </motion.h2>

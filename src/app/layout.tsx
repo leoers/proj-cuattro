@@ -5,9 +5,9 @@ import { Montserrat } from "next/font/google";
 // Configuração da fonte Montserrat
 const montserrat = Montserrat({ 
   subsets: ["latin"],
-  weight: ["400", "700", "900"], 
+  weight: ["400", "700", "900"],
+  variable: '--font-montserrat', // Adicione esta linha
 });
-
 export const metadata: Metadata = {
   title: "Cuattro | Tecnologia Interativa para Varejo e PDV",
   description: "Soluções Lift & Learn e sensores inteligentes para transformar a experiência de compra no varejo físico.",
@@ -27,7 +27,7 @@ export default function RootLayout({
   return (
     <html lang="pt-BR">
       {/* Aplicando a classe da fonte no body para todo o site herdar */}
-      <body className={montserrat.className}>
+      <body className={`${montserrat.variable} font-sans antialiased`}>
         {children}
       </body>
     </html>
