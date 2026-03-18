@@ -19,18 +19,16 @@ export default function FooterRD() {
     setStatus('loading');
 
     try {
-      // Chamando a sua API local que criamos em src/app/api/route.ts
+      // Chamando a sua API local em src/app/api/route.ts
       const response = await fetch('/api', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData), // Enviando apenas os dados do formulário
+        body: JSON.stringify(formData),
       });
 
       if (response.ok) {
         setStatus('success');
-        // Limpa o formulário após o sucesso
         setFormData({ nome: '', email: '', empresa: '', mensagem: '', aceito: true });
-        // Volta o botão ao estado normal após 5 segundos
         setTimeout(() => setStatus('idle'), 5000);
       } else {
         setStatus('error');
@@ -121,4 +119,4 @@ export default function FooterRD() {
       </div>
     </footer>
   );
-}
+} // <--- Esta era a chave que faltava!
