@@ -19,8 +19,8 @@ export default function FooterRD() {
     setStatus('loading');
 
     try {
-      // Chamando a sua API local em src/app/api/route.ts
-      const response = await fetch('/api', {
+      // Ajuste: usando caminho absoluto para garantir que a rota seja encontrada
+      const response = await fetch('/api/', { 
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
@@ -31,10 +31,12 @@ export default function FooterRD() {
         setFormData({ nome: '', email: '', empresa: '', mensagem: '', aceito: true });
         setTimeout(() => setStatus('idle'), 5000);
       } else {
+        const errorData = await response.json();
+        console.error("Erro da API:", errorData); // Isso ajuda a ver o erro no F12 do navegador
         setStatus('error');
       }
     } catch (err) {
-      console.error("Erro ao enviar formulário:", err);
+      console.error("Erro crítico no envio:", err);
       setStatus('error');
     }
   };
@@ -119,4 +121,4 @@ export default function FooterRD() {
       </div>
     </footer>
   );
-} // <--- Esta era a chave que faltava!
+}

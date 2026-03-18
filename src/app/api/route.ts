@@ -6,11 +6,10 @@ export async function POST(req: Request) {
   try {
     const body = await req.json();
 
-    // ESTA É A URL MAIS RECENTE PARA INTEGRAÇÕES SIMPLES (API v2)
+    // URL oficial para conversões v1 (a mais estável para esse token)
     const rdUrl = `https://api.rdstation.com.br/main/api/v1/conversions`;
 
     const formData = new URLSearchParams();
-    // Use exatamente o nome 'token_rdstation'
     formData.append('token_rdstation', 'b91cc3a01e31193552fad70cdf8e2fc2');
     formData.append('identificador', 'lead_lift_learn');
     formData.append('email', body.email);
@@ -20,9 +19,9 @@ export async function POST(req: Request) {
 
     const response = await fetch(rdUrl, {
       method: 'POST',
-      mode: 'cors',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
+        'Accept': 'application/json'
       },
       body: formData.toString(),
     });
@@ -40,4 +39,4 @@ export async function POST(req: Request) {
     console.error(">>> ERRO CRÍTICO NO SERVIDOR:", error.message);
     return NextResponse.json({ success: false, message: error.message }, { status: 500 });
   }
-}
+} 
