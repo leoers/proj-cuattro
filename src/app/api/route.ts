@@ -6,24 +6,26 @@ export async function POST(req: Request) {
   try {
     const body = await req.json();
 
-    // URL v1.1 - A mais estável para RD Marketing (Painel que você enviou)
-    // Adicionamos um parâmetro aleatório para evitar cache no servidor da RD
-    const rdUrl = `https://www.rdstation.com.br/api/1.1/conversions?timestamp=${Date.now()}`;
+    // URL DE EVENTOS V1 (A mais moderna para RD Marketing)
+    const rdUrl = `https://api.rdstation.com.br/main/api/v1/conversions`;
 
-    const params = new URLSearchParams();
-    params.append('token_rdstation', 'b91cc3a01e31193552fad70cdf8e2fc2');
-    params.append('identificador', 'IDENTIFICADOR_TESTE_V4'); // Mudei para V4
-    params.append('email', body.email);
-    params.append('nome', body.nome);
-    params.append('empresa', body.empresa || '');
-    params.append('mensagem', body.mensagem || '');
+    const payload = {
+      token_rdstation: 'b91cc3a01e31193552fad70cdf8e2fc2',
+      identificador: 'CONTATO_SITE_OFICIAL_V5', // Mudamos o ID para confirmar que limpou cache
+      email: body.email,
+      nome: body.nome,
+      empresa: body.empresa || '',
+      mensagem: body.mensagem || '',
+      c_utm_source: 'site-nextjs'
+    };
 
     const response = await fetch(rdUrl, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
       },
-      body: params.toString(),
+      body: JSON.stringify(payload),
     });
 
     const result = await response.text();
@@ -31,8 +33,7 @@ export async function POST(req: Request) {
     if (response.ok) {
       return NextResponse.json({ success: true });
     } else {
-      // Se der erro, vamos ver o texto puro da RD no log da Vercel
-      console.error("ERRO_RD_DETALHADO:", result);
+      console.error("ERRO DETALHADO RD:", result);
       return NextResponse.json({ success: false, error: result }, { status: 400 });
     }
   } catch (error: any) {
