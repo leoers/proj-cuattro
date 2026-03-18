@@ -4,13 +4,6 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 
-// Tipagem para evitar erros de TypeScript com o SDK global
-declare global {
-  interface Window {
-    RdIntegration: any;
-  }
-}
-
 export default function FooterRD() {
   const [formData, setFormData] = useState({
     nome: '',
@@ -25,39 +18,26 @@ export default function FooterRD() {
     e.preventDefault();
     setStatus('loading');
 
-    const identificador = 'lead_lift_learn';
-
     try {
-      // 1. Envio para sua API Route (Backup/Logs)
-      const response = await fetch('/api/rd-station', {
+      // Chamando a sua API local que criamos em src/app/api/route.ts
+      const response = await fetch('/api', {
         method: 'POST',
-        body: JSON.stringify({ ...formData, identificador }),
         headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData), // Enviando apenas os dados do formulário
       });
-
-      // 2. Envio Direto para o RD Station via SDK Loader do cliente
-      if (typeof window !== 'undefined' && window.RdIntegration) {
-        window.RdIntegration.post([
-          { name: 'nome', value: formData.nome },
-          { name: 'email', value: formData.email },
-          { name: 'empresa', value: formData.empresa },
-          { name: 'mensagem', value: formData.mensagem },
-          { name: 'identificador', value: identificador },
-          { name: 'token_rd', value: 'f1a378e4-97d0-427e-a74b-21e94286aa54' }
-        ], () => {
-          console.log('RD Station: Lead de contato enviado.');
-        });
-      }
 
       if (response.ok) {
         setStatus('success');
+        // Limpa o formulário após o sucesso
         setFormData({ nome: '', email: '', empresa: '', mensagem: '', aceito: true });
+        // Volta o botão ao estado normal após 5 segundos
         setTimeout(() => setStatus('idle'), 5000);
-      } else { 
-        setStatus('error'); 
+      } else {
+        setStatus('error');
       }
-    } catch (err) { 
-      setStatus('error'); 
+    } catch (err) {
+      console.error("Erro ao enviar formulário:", err);
+      setStatus('error');
     }
   };
 
@@ -65,7 +45,7 @@ export default function FooterRD() {
     <footer id="footer" className="w-full bg-[#ffee5a] py-20 px-6 relative overflow-hidden">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
         
-        {/* Lado Esquerdo: Texto e Branding */}
+        {/* Lado Esquerdo */}
         <div className="relative z-10">
           <h2 className="text-4xl md:text-[64px] font-[700] text-[#2D2D2D] leading-[1] uppercase mb-8 tracking-wide">
             Quer ver a <br /> tecnologia <br /> funcionando <br /> na prática?
@@ -74,11 +54,11 @@ export default function FooterRD() {
             Fale com nossos especialistas e descubra como implementar o Lift & Learn no seu ponto de venda em poucas semanas.
           </p>
           <div className="w-48 h-auto">
-            <Image src="/images/ui/logo-cuattro.png" alt="Cuattro Live & Digital" width={200} height={60} className="object-contain" />
+            <Image src="/images/ui/logo-cuattro.png" alt="Cuattro" width={200} height={60} className="object-contain" />
           </div>
         </div>
 
-        {/* Lado Direito: Card do Formulário */}
+        {/* Lado Direito */}
         <div className="bg-white rounded-[40px] p-8 md:p-12 shadow-xl relative z-10">
           <h3 className="text-xl font-bold text-[#2D2D2D] mb-2">Solicite uma demonstração</h3>
           <p className="text-[#2D2D2D] mb-8 pb-2 border-b-2 border-[#ffee5a] w-fit">ou proposta personalizada</p>
@@ -94,7 +74,7 @@ export default function FooterRD() {
                 <input
                   type={field.type}
                   required
-                  className="bg-transparent outline-none w-full text-slate-600 placeholder-slate-300"
+                  className="bg-transparent outline-none w-full text-slate-600"
                   value={formData[field.id as keyof typeof formData] as string}
                   onChange={(e) => setFormData({...formData, [field.id]: e.target.value})}
                 />
@@ -116,7 +96,7 @@ export default function FooterRD() {
                 <input 
                   type="checkbox" 
                   checked={formData.aceito} 
-                  onChange={(e) => setFormData({...formData, aceito: e.target.checked})}
+                  onChange={(e) => setFormData({...formData, aceito: e.target.checked})} 
                   className="accent-orange-500 w-4 h-4" 
                 />
                 Aceito receber contato
@@ -127,25 +107,17 @@ export default function FooterRD() {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   disabled={status === 'loading'}
+                  type="submit"
                   className="bg-gradient-to-r from-[#ffee5a] to-[#FF9D1C] text-[#2D2D2D] font-black uppercase tracking-widest px-10 py-4 rounded-full shadow-lg flex items-center gap-2 disabled:opacity-50"
                 >
-                  {status === 'loading' ? 'enviando...' : (
-                    <span className="flex items-center gap-1">
-                      enviar <span className="text-lg leading-none">›</span>
-                    </span>
-                  )}
+                  {status === 'loading' ? 'enviando...' : 'enviar ›'}
                 </motion.button>
-                {status === 'success' && <span className="text-green-600 text-[10px] font-bold">✓ Mensagem enviada!</span>}
-                {status === 'error' && <span className="text-red-500 text-[10px] font-bold">Erro ao enviar.</span>}
+                {status === 'success' && <span className="text-green-600 text-[11px] font-bold animate-bounce">✓ Mensagem enviada com sucesso!</span>}
+                {status === 'error' && <span className="text-red-500 text-[11px] font-bold">Erro ao enviar. Tente novamente.</span>}
               </div>
             </div>
           </form>
         </div>
-      </div>
-      
-      {/* Elemento Decorativo: Curva SVG */}
-      <div className="absolute top-0 right-0 w-1/2 opacity-20 pointer-events-none">
-        <Image src="/images/ui/curva-bg.png" alt="" width={600} height={600} className="object-contain" />
       </div>
     </footer>
   );
