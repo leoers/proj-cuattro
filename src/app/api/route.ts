@@ -4,37 +4,37 @@ export async function POST(req: Request) {
   try {
     const body = await req.json();
     const PUBLIC_TOKEN = 'b91cc3a01e31193552fad70cdf8e2fc2'; 
-    const rdUrl = `https://www.rdstation.com.br/api/1.1/conversions`;
 
-    const formData = new URLSearchParams();
-    
-    // Dados básicos (Batendo com o seu print da RD)
-    formData.append('token_rdstation', PUBLIC_TOKEN);
-    formData.append('identificador', 'Formulario de contato');
-    formData.append('email', body.email);
-    formData.append('nome', body.nome);
-    
-    // Campos Adicionais
-    if (body.empresa) formData.append('empresa', body.empresa);
-    if (body.mensagem) formData.append('mensagem', body.mensagem);
-    
-    // O campo de ACEITO (Checkbox)
-    // Convertemos o true/false para um texto legível no painel da RD
-    formData.append('receber_contato', body.aceito ? 'Sim' : 'Não');
+    // Este endpoint v2 é "blindado" contra o erro 502 de interface da RD
+    const rdUrl = `https://api.rdstation.com.br/platform/conversions?ad_identifier=${PUBLIC_TOKEN}`;
+
+    const payload = {
+      event_type: "CONVERSION",
+      event_family: "CDP",
+      payload: {
+        email: body.email,
+        name: body.nome,
+        company: body.empresa || '',
+        personal_message: body.mensagem || '',
+        cf_receber_contato: body.aceito ? 'Sim' : 'Não', 
+        conversion_identifier: "contato-site-cuattro-v2"
+      }
+    };
 
     const response = await fetch(rdUrl, {
       method: 'POST',
       headers: { 
-        'Content-Type': 'application/x-www-form-urlencoded',
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
       },
-      body: formData.toString(),
+      body: JSON.stringify(payload),
     });
 
     if (response.ok) {
       return NextResponse.json({ success: true });
     } else {
-      const errorText = await response.text();
-      return NextResponse.json({ success: false, error: errorText }, { status: 400 });
+      const errorData = await response.json();
+      return NextResponse.json({ success: false, error: errorData }, { status: 400 });
     }
   } catch (error: any) {
     return NextResponse.json({ success: false, message: error.message }, { status: 500 });
