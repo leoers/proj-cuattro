@@ -19,10 +19,7 @@ export default function KitItem({ title, description, imagePath, delay }: KitIte
       // Card transparente para herdar o fundo laranja e o gradiente do pai
       className="flex flex-col items-center text-center p-6 cursor-pointer h-full relative"
     >
-      {/* CONTAINER DE TEXTO:
-          - Texto Branco (700) fixo.
-          - drop-shadow-[0_2px_8px_rgba(0,0,0,0.5)]: Sombra reforçada para leitura.
-      */}
+      {/* CONTAINER DE TEXTO */}
       <div className="flex flex-col mb-10 h-[160px] justify-start px-4 md:px-0 relative z-10">
         <h3 className="text-white font-bold text-2xl mb-3 leading-tight uppercase tracking-tight drop-shadow-[0_2px_8px_rgba(0,0,0,0.5)]">
           {title}
@@ -33,11 +30,17 @@ export default function KitItem({ title, description, imagePath, delay }: KitIte
       </div>
 
       {/* CÍRCULO DO PRODUTO */}
-      <div className="w-52 h-52 md:w-60 md:h-60 rounded-full bg-white flex items-center justify-center p-8 shadow-2xl relative z-10">
+      {/* Removemos o padding (p-8) para que a imagem preencha o círculo se necessário, 
+          garantindo o recorte redondo perfeito. */}
+      <div className="w-52 h-52 md:w-60 md:h-60 rounded-full bg-white flex items-center justify-center shadow-2xl relative z-10 overflow-hidden">
         <img 
           src={imagePath} 
           alt={title} 
-          className="w-full h-full object-contain" 
+          // MUDANÇAS AQUI:
+          // 1. rounded-full: Garante que a imagem seja cortada em círculo.
+          // 2. object-cover: Faz a imagem preencher o container sem distorcer, 
+          //                  cortando as sobras quadradas.
+          className="w-full h-full object-cover rounded-full" 
         />
       </div>
     </motion.div>

@@ -308,10 +308,10 @@ export default function Home() {
         </div>
 
         <div className="max-w-[1750px] mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-8 relative z-10 items-stretch w-full">
-          <KitItem title="SMART TAGS WIRELESS ADICIONAIS" description="Tags wireless. Uso 24/7 com bateria que dura 2 anos" imagePath="/images/cases/tampa-sensor.png" delay={0.1} />
-          <KitItem title="SMART TRIGGER" description="Aciona conteúdos na tela com base em interações dos produtos" imagePath="/images/cases/usb.png" delay={0.1} />
+          <KitItem title="SMART TAGS WIRELESS ADICIONAIS" description="Tags wireless. Uso 24/7 com bateria que dura 2 anos" imagePath="/images/cases/tampa-sensor.gif" delay={0.1} />
+          <KitItem title="SMART TRIGGER" description="Aciona conteúdos na tela com base em interações dos produtos" imagePath="/images/cases/usb.gif" delay={0.1} />
           <KitItem title="Media Player" description="1 M de Cabo Fornecido. Dimensão: 80×30×19 mm" imagePath="/images/cases/media-player.png" delay={0.1} />
-          <KitItem title="SMART TAGS ADICIONAIS" description="Até 50 tags reutilizáveis por cada controle. É só plugar e ligar!" imagePath="/images/cases/wireless.png" delay={0.1} />
+          <KitItem title="SMART TAGS ADICIONAIS" description="Até 50 tags reutilizáveis por cada controle. É só plugar e ligar!" imagePath="/images/cases/wireless.gif" delay={0.1} />
         </div>
       </section>
 
