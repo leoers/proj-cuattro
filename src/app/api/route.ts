@@ -3,44 +3,40 @@ import { NextResponse } from 'next/server';
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    
-    // TOKEN PÚBLICO que você pegou no painel
     const PUBLIC_TOKEN = 'b91cc3a01e31193552fad70cdf8e2fc2'; 
+    const rdUrl = `https://www.rdstation.com.br/api/1.1/conversions`;
 
-    // URL da API V2 (Mais moderna e estável)
-    const rdUrl = `https://api.rdstation.com.br/platform/conversions?ad_identifier=${PUBLIC_TOKEN}`;
-
-    const payload = {
-      event_type: "CONVERSION",
-      event_family: "CDP",
-      payload: {
-        email: body.email,
-        name: body.nome,
-        company: body.empresa || '',
-        personal_message: body.mensagem || '',
-        conversion_identifier: "contato-site-cuattro-v15"
-      }
-    };
+    const formData = new URLSearchParams();
+    
+    // Dados básicos (Batendo com o seu print da RD)
+    formData.append('token_rdstation', PUBLIC_TOKEN);
+    formData.append('identificador', 'Formulario de contato');
+    formData.append('email', body.email);
+    formData.append('nome', body.nome);
+    
+    // Campos Adicionais
+    if (body.empresa) formData.append('empresa', body.empresa);
+    if (body.mensagem) formData.append('mensagem', body.mensagem);
+    
+    // O campo de ACEITO (Checkbox)
+    // Convertemos o true/false para um texto legível no painel da RD
+    formData.append('receber_contato', body.aceito ? 'Sim' : 'Não');
 
     const response = await fetch(rdUrl, {
       method: 'POST',
       headers: { 
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
+        'Content-Type': 'application/x-www-form-urlencoded',
       },
-      body: JSON.stringify(payload),
+      body: formData.toString(),
     });
-
-    const result = await response.json();
 
     if (response.ok) {
       return NextResponse.json({ success: true });
     } else {
-      console.error(">>> ERRO DETALHADO RD V2:", result);
-      return NextResponse.json({ success: false, error: result }, { status: 400 });
+      const errorText = await response.text();
+      return NextResponse.json({ success: false, error: errorText }, { status: 400 });
     }
   } catch (error: any) {
-    console.error(">>> ERRO CRÍTICO API:", error.message);
     return NextResponse.json({ success: false, message: error.message }, { status: 500 });
   }
 }
