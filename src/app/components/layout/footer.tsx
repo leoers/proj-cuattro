@@ -15,22 +15,34 @@ export default function FooterRD() {
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
 
   const handleSubmit = async (e: React.FormEvent) => {
-    // IMPORTANTE: Não damos o e.preventDefault() imediato para permitir 
-    // que o script da RD Station sinta o clique de envio.
+    e.preventDefault(); // Impede o refresh da página
     setStatus('loading');
 
-    // Simulamos um pequeno delay para o usuário ver que algo aconteceu
-    setTimeout(() => {
-      setStatus('success');
-      // Limpa o formulário
-      setFormData({ nome: '', email: '', empresa: '', mensagem: '', aceito: true });
-      
-      // Volta o botão ao normal depois de 5 segundos
-      setTimeout(() => setStatus('idle'), 5000);
-    }, 1500);
-    
-    // O script da RD Station injetado via layout capturará 
-    // os campos automaticamente por causa dos atributos 'name'
+    try {
+      const response = await fetch('/api', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        setStatus('success');
+        // Limpa o formulário após o sucesso
+        setFormData({ nome: '', email: '', empresa: '', mensagem: '', aceito: true });
+        
+        // Volta o botão ao estado normal após 5 segundos
+        setTimeout(() => setStatus('idle'), 5000);
+      } else {
+        const errorData = await response.text();
+        console.error("Erro na resposta da API:", errorData);
+        setStatus('error');
+      }
+    } catch (err) {
+      console.error("Erro ao enviar formulário:", err);
+      setStatus('error');
+    }
   };
 
   return (
@@ -66,7 +78,7 @@ export default function FooterRD() {
                 <input
                   type={field.type}
                   required
-                  name={field.id} // Fundamental para a captura automática
+                  name={field.id}
                   className="bg-transparent outline-none w-full text-slate-600"
                   value={formData[field.id as keyof typeof formData] as string}
                   onChange={(e) => setFormData({...formData, [field.id]: e.target.value})}
@@ -78,7 +90,7 @@ export default function FooterRD() {
               <span className="text-[#2D2D2D] font-bold mb-2 text-sm">mensagem :</span>
               <textarea
                 rows={3}
-                name="mensagem" // Fundamental para a captura automática
+                name="mensagem"
                 className="bg-transparent outline-none w-full text-slate-600 resize-none"
                 value={formData.mensagem}
                 onChange={(e) => setFormData({...formData, mensagem: e.target.value})}
@@ -93,7 +105,7 @@ export default function FooterRD() {
                   onChange={(e) => setFormData({...formData, aceito: e.target.checked})} 
                   className="accent-orange-500 w-4 h-4" 
                 />
-                Aceito receber contato6
+                Aceito receber contato7
               </label>
               
               <div className="flex flex-col items-end gap-2">
@@ -106,8 +118,16 @@ export default function FooterRD() {
                 >
                   {status === 'loading' ? 'enviando...' : 'enviar ›'}
                 </motion.button>
-                {status === 'success' && <span className="text-green-600 text-[11px] font-bold animate-bounce">✓ Mensagem enviada com sucesso!</span>}
-                {status === 'error' && <span className="text-red-500 text-[11px] font-bold">Erro ao enviar. Tente novamente.</span>}
+                {status === 'success' && (
+                  <span className="text-green-600 text-[11px] font-bold animate-bounce">
+                    ✓ Mensagem enviada com sucesso!
+                  </span>
+                )}
+                {status === 'error' && (
+                  <span className="text-red-500 text-[11px] font-bold">
+                    Erro ao enviar. Tente novamente.
+                  </span>
+                )}
               </div>
             </div>
           </form>
