@@ -4,36 +4,40 @@ export async function POST(req: Request) {
   try {
     const body = await req.json();
     
-    // TOKEN PÚBLICO (O "Nome" da analogia RD)
+    // TOKEN PÚBLICO que você pegou no painel
     const PUBLIC_TOKEN = 'b91cc3a01e31193552fad70cdf8e2fc2'; 
 
-    // URL OFICIAL DE CONVERSÃO V1.1
-    const rdUrl = `https://www.rdstation.com.br/api/1.1/conversions`;
+    // URL da API V2 (Mais moderna e estável)
+    const rdUrl = `https://api.rdstation.com.br/platform/conversions?ad_identifier=${PUBLIC_TOKEN}`;
 
-    // Criando o formulário para evitar bloqueios de segurança (CORS/Domain)
-    const formData = new URLSearchParams();
-    formData.append('token_rdstation', PUBLIC_TOKEN);
-    formData.append('identificador', 'contato-site-cuattro-final');
-    formData.append('email', body.email);
-    formData.append('nome', body.nome);
-    formData.append('empresa', body.empresa || '');
-    formData.append('mensagem', body.mensagem || '');
+    const payload = {
+      event_type: "CONVERSION",
+      event_family: "CDP",
+      payload: {
+        email: body.email,
+        name: body.nome,
+        company: body.empresa || '',
+        personal_message: body.mensagem || '',
+        conversion_identifier: "contato-site-cuattro-v15"
+      }
+    };
 
     const response = await fetch(rdUrl, {
       method: 'POST',
       headers: { 
-        'Content-Type': 'application/x-www-form-urlencoded',
+        'Content-Type': 'application/json',
         'Accept': 'application/json'
       },
-      body: formData.toString(),
+      body: JSON.stringify(payload),
     });
+
+    const result = await response.json();
 
     if (response.ok) {
       return NextResponse.json({ success: true });
     } else {
-      const errorText = await response.text();
-      console.error(">>> ERRO RD STATION:", errorText);
-      return NextResponse.json({ success: false, error: errorText }, { status: 400 });
+      console.error(">>> ERRO DETALHADO RD V2:", result);
+      return NextResponse.json({ success: false, error: result }, { status: 400 });
     }
   } catch (error: any) {
     console.error(">>> ERRO CRÍTICO API:", error.message);
