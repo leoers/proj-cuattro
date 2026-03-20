@@ -11,7 +11,7 @@ export async function POST(req: Request) {
 
     const params = new URLSearchParams();
     params.append('token_rdstation', PUBLIC_TOKEN);
-    params.append('identificador', 'LP-LiftLearn-Contato');
+    params.append('identificador', 'Contato_Site_LiftLearn');
     params.append('email', body.email || '');
     params.append('nome', body.nome || '');
     
