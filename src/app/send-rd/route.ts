@@ -6,49 +6,38 @@ export async function POST(req: Request) {
     const body = await req.json();
     const PUBLIC_TOKEN = 'b91cc3a01e31193552fad70cdf8e2fc2'; 
     
-    // URL oficial para integrações v1.1
-    const rdUrl = 'https://www.rdstation.com.br/api/1.1/conversions';
+    // Tentando o endpoint de eventos da v2.0
+    const rdUrl = 'https://api.rd.services/platform/conversions?api_token=' + PUBLIC_TOKEN;
 
-    const params = new URLSearchParams();
-    params.append('token_rdstation', PUBLIC_TOKEN);
-    params.append('identificador', 'contato-site'); // Simplificado ao máximo
-    params.append('email', body.email || '');
-    
-    if (body.nome) {
-      params.append('nome', body.nome);
-    }
-
-    // Comentando campos extras para isolar o erro 500 da RD
-    // if (body.empresa) params.append('empresa', body.empresa);
-    // if (body.mensagem) params.append('mensagem', body.mensagem);
-    // params.append('privacy_policy', body.aceito ? '1' : '0');
+    const payload = {
+      event_type: "CONVERSION",
+      event_family: "CDP",
+      payload: {
+        conversion_identifier: "contato-site-liftlearn",
+        email: body.email,
+        name: body.nome,
+        // Adicione outros campos aqui se o teste inicial der 200
+      }
+    };
 
     const response = await fetch(rdUrl, {
       method: 'POST',
       headers: { 
-        'Content-Type': 'application/x-www-form-urlencoded',
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
       },
-      body: params.toString(),
+      body: JSON.stringify(payload),
     });
 
-    const responseData = await response.text();
+    const responseData = await response.json(); // v2.0 sempre responde JSON
 
     if (response.ok) {
-      console.log(">>> SUCESSO: Lead enviado!");
       return NextResponse.json({ success: true });
     } else {
-      // Se der 500/502 aqui, o problema é instabilidade na RD ou no Token
-      console.error(`>>> RD STATUS ${response.status}:`, responseData);
-      return NextResponse.json(
-        { success: false, error: "Erro na RD Station" }, 
-        { status: response.status }
-      );
+      console.error(">>> ERRO v2.0:", responseData);
+      return NextResponse.json({ success: false, error: responseData }, { status: response.status });
     }
   } catch (error: any) {
-    console.error(">>> ERRO NO CÓDIGO:", error.message);
-    return NextResponse.json(
-      { success: false, message: error.message }, 
-      { status: 500 }
-    );
+    return NextResponse.json({ success: false, message: error.message }, { status: 500 });
   }
 }
