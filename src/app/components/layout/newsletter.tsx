@@ -68,7 +68,7 @@ export default function NewsletterRD() {
         
         <div className="max-w-2xl text-center md:text-left">
           <p className="text-[#2D2D2D] text-lg md:text-[22px] leading-[1.4]">
-            Receba conteúdos sobre <span className="font-[900]">smart retail, experiência do cliente, inovação no PDV e aumento de vendas em lojas físicas. 3</span>
+            Receba conteúdos sobre <span className="font-[900]">smart retail, experiência do cliente, inovação no PDV e aumento de vendas em lojas físicas. 4</span>
           </p>
         </div>
 
