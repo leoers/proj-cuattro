@@ -4,20 +4,17 @@ import { NextResponse } from 'next/server';
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    
-    // A chave que você gerou (Lado Direito do Painel)
     const API_KEY = 'cmXrfEMWPZPuYdCtjsPnMYjxTDvnPUYkhWjo'; 
-    
-    // URL LIMPA (Sem o ?api_key=...)
     const rdUrl = 'https://api.rd.services/platform/conversions';
 
     const payload = {
       event_type: "CONVERSION",
       event_family: "CDP",
       payload: {
-        conversion_identifier: body.identificador || "newsletter-lift-learn",
-        email: body.email.trim(),
-        name: body.nome || "Lead Site",
+        conversion_identifier: "newsletter-site",
+        email: body.email.trim()
+        // NOME REMOVIDO
+        // LEGAL BASES REMOVIDO (para testar a forma mais simples)
       }
     };
 
@@ -26,7 +23,6 @@ export async function POST(req: Request) {
       headers: { 
         'Content-Type': 'application/json',
         'Accept': 'application/json',
-        // AJUSTE AQUI: Enviando a chave como um Header direto
         'api-key': API_KEY 
       },
       body: JSON.stringify(payload),
@@ -35,7 +31,7 @@ export async function POST(req: Request) {
     const responseText = await response.text();
 
     if (response.ok) {
-      console.log(">>> SUCESSO: Lead enviado com chave no Header!");
+      console.log(">>> AGORA FOI! Lead (e-mail) enviado.");
       return NextResponse.json({ success: true });
     } else {
       console.error(">>> STATUS RD:", response.status, responseText);
