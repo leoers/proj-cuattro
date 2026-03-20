@@ -92,7 +92,7 @@ export default function FooterRD() {
           <h3 className="text-xl font-bold text-[#2D2D2D] mb-2">Solicite uma demonstração</h3>
           <p className="text-[#2D2D2D] mb-8 pb-2 border-b-2 border-[#ffee5a] w-fit">ou proposta personalizada</p>
 
-          <form id="formulario-footer" name="formulario-footer" onSubmit={handleSubmit} className="space-y-4">
+          <form id="formulario-lift-learn-footer" name="formulario-lift-learn-footer" onSubmit={handleSubmit} className="space-y-4">
             {[
               { label: 'nome', id: 'nome', type: 'text' },
               { label: 'e-mail', id: 'email', type: 'email' },
