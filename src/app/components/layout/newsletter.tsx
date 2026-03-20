@@ -72,7 +72,7 @@ export default function NewsletterRD() {
           </p>
         </div>
 
-        <form onSubmit={handleSubmit} className="relative w-full md:w-auto">
+        <form id="newsletter-lift-learn" name="newsletter-lift-learn" onSubmit={handleSubmit} className="relative w-full md:w-auto">
           <div className="flex items-center border-[2.5px] border-[#2D2D2D] rounded-full px-8 py-4 transition-all focus-within:ring-2 focus-within:ring-[#ffee5a]">
             <span className="text-[#2D2D2D] font-[900] mr-4 whitespace-nowrap uppercase text-[13px] tracking-widest">
               e-mail :

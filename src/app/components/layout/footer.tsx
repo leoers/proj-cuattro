@@ -92,7 +92,7 @@ export default function FooterRD() {
           <h3 className="text-xl font-bold text-[#2D2D2D] mb-2">Solicite uma demonstração</h3>
           <p className="text-[#2D2D2D] mb-8 pb-2 border-b-2 border-[#ffee5a] w-fit">ou proposta personalizada</p>
 
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form id="formulario-footer" name="formulario-footer" onSubmit={handleSubmit} className="space-y-4">
             {[
               { label: 'nome', id: 'nome', type: 'text' },
               { label: 'e-mail', id: 'email', type: 'email' },
@@ -130,7 +130,7 @@ export default function FooterRD() {
                   onChange={(e) => setFormData({...formData, aceito: e.target.checked})} 
                   className="accent-orange-500 w-4 h-4" 
                 />
-                Aceito receber contato 1
+                Aceito receber contato
               </label>
               
               <div className="flex flex-col items-end gap-2">
