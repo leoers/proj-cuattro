@@ -6,25 +6,22 @@ export async function POST(req: Request) {
     const body = await req.json();
     const PUBLIC_TOKEN = 'b91cc3a01e31193552fad70cdf8e2fc2'; 
     
-    // URL mais estável para formulários manuais
+    // URL oficial para integrações v1.1
     const rdUrl = 'https://www.rdstation.com.br/api/1.1/conversions';
 
     const params = new URLSearchParams();
     params.append('token_rdstation', PUBLIC_TOKEN);
-    params.append('identificador', 'Contato_Site_LiftLearn');
-    
-    // Garantindo que os valores básicos existam para não dar 502
+    params.append('identificador', 'contato-site'); // Simplificado ao máximo
     params.append('email', body.email || '');
+    
     if (body.nome) {
       params.append('nome', body.nome);
     }
-    
-    // Consentimento LGPD
-    params.append('privacy_policy', body.aceito ? '1' : '0');
 
-    // OPCIONAL: Se quiser testar apenas o básico, deixe as linhas abaixo comentadas
+    // Comentando campos extras para isolar o erro 500 da RD
     // if (body.empresa) params.append('empresa', body.empresa);
     // if (body.mensagem) params.append('mensagem', body.mensagem);
+    // params.append('privacy_policy', body.aceito ? '1' : '0');
 
     const response = await fetch(rdUrl, {
       method: 'POST',
@@ -37,17 +34,18 @@ export async function POST(req: Request) {
     const responseData = await response.text();
 
     if (response.ok) {
-      console.log(">>> SUCESSO: Lead enviado para RD Station");
+      console.log(">>> SUCESSO: Lead enviado!");
       return NextResponse.json({ success: true });
     } else {
-      console.error(">>> ERRO RESPOSTA RD STATION:", response.status, responseData);
+      // Se der 500/502 aqui, o problema é instabilidade na RD ou no Token
+      console.error(`>>> RD STATUS ${response.status}:`, responseData);
       return NextResponse.json(
-        { success: false, error: responseData }, 
+        { success: false, error: "Erro na RD Station" }, 
         { status: response.status }
       );
     }
   } catch (error: any) {
-    console.error(">>> ERRO CRÍTICO NA ROTA:", error.message);
+    console.error(">>> ERRO NO CÓDIGO:", error.message);
     return NextResponse.json(
       { success: false, message: error.message }, 
       { status: 500 }
