@@ -4,23 +4,20 @@ import { NextResponse } from 'next/server';
 export async function POST(req: Request) {
   try {
     const body = await req.json();
+    
+    // A API Key (cmX...) que você gerou no App
     const API_KEY = 'cmXrfEMWPZPuYdCtjsPnMYjxTDvnPUYkhWjo'; 
-    const rdUrl = 'https://api.rd.services/platform/conversions';
+    
+    // A URL com a chave anexada (Query Param), seguindo a documentação
+    const rdUrl = `https://api.rd.services/platform/conversions?api_key=${API_KEY}`;
 
     const payload = {
       event_type: "CONVERSION",
       event_family: "CDP",
       payload: {
-        conversion_identifier: body.identificador || "newsletter-lift-learn", 
+        conversion_identifier: body.identificador || "newsletter-lift-learn",
         email: body.email.trim(),
-        // Aqui entra a Base Legal que você encontrou na tabela:
-        legal_bases: [
-          {
-            category: "communications",
-            type: "consent", // Base legal: Consentimento
-            status: "granted" // Status: Concedido
-          }
-        ]
+        name: body.nome || ""
       }
     };
 
@@ -28,20 +25,19 @@ export async function POST(req: Request) {
       method: 'POST',
       headers: { 
         'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'Authorization': `Bearer ${API_KEY}`
+        'Accept': 'application/json'
       },
       body: JSON.stringify(payload),
     });
 
-    const responseData = await response.text();
+    const responseText = await response.text();
 
     if (response.ok) {
-      console.log(">>> SUCESSO: Lead enviado com Base Legal!");
-      return NextResponse.json({ success: true });
+      console.log(">>> SUCESSO v2.0: Lead enviado com API Key na URL!");
+      return NextResponse.json({ success: true, data: responseText });
     } else {
-      console.error(">>> ERRO RD:", response.status, responseData);
-      return NextResponse.json({ success: false, error: responseData }, { status: response.status });
+      console.error(">>> ERRO RD 2.0:", response.status, responseText);
+      return NextResponse.json({ success: false, error: responseText }, { status: response.status });
     }
   } catch (error: any) {
     return NextResponse.json({ success: false, message: error.message }, { status: 500 });
