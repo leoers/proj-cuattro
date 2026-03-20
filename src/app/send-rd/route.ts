@@ -4,7 +4,7 @@ import { NextResponse } from 'next/server';
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const API_KEY = 'cmXrfEMWPZPuYdCtjsPnMYjxTDvnPUYkhWjo'; 
+    const API_KEY = 'VBFJtNiBkuvaZmzUfCKhOdAQcOtRljgBDGDq'; 
     const rdUrl = 'https://api.rd.services/platform/conversions';
 
     const payload = {
