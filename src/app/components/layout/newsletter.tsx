@@ -35,7 +35,7 @@ export default function NewsletterRD() {
       if (typeof window !== 'undefined' && window.RdIntegration) {
         window.RdIntegration.post([
           { name: 'email', value: email.trim() },
-          { name: 'identificador', value: identificador },
+          { name: 'form_id', value: identificador },
           { name: 'token_rd', value: 'f1a378e4-97d0-427e-a74b-21e94286aa54' } 
         ], () => {
           console.log('RD SDK: Lead processado via Front-end');

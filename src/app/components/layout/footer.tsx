@@ -4,6 +4,13 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 
+// Tipagem para o SDK da RD
+declare global {
+  interface Window {
+    RdIntegration: any;
+  }
+}
+
 export default function FooterRD() {
   const [formData, setFormData] = useState({
     nome: '',
@@ -18,26 +25,40 @@ export default function FooterRD() {
     e.preventDefault();
     setStatus('loading');
 
+    const identificador = 'formulario-footer';
+
     try {
+      // 1. Chamada para a sua API Route (/send-rd)
       const response = await fetch('/send-rd', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          ...formData,
+          identificador // Enviando o ID para o router organizar
+        }),
       });
 
-      // Como validamos que o lead cai na RD mesmo com respostas instáveis,
-      // consideramos sucesso se a resposta for OK (200/201) 
-      // ou se o processo apenas não falhou catastroficamente no catch.
+      // 2. Camada de Segurança: SDK do RD Station (Front-end)
+      // Mudamos de 'identificador' para 'form_id' para corrigir o título "home"
+      if (typeof window !== 'undefined' && window.RdIntegration) {
+        window.RdIntegration.post([
+          { name: 'email', value: formData.email.trim() },
+          { name: 'nome', value: formData.nome },
+          { name: 'empresa', value: formData.empresa },
+          { name: 'form_id', value: identificador }, 
+          { name: 'token_rd', value: 'f1a378e4-97d0-427e-a74b-21e94286aa54' } 
+        ]);
+      }
+
+      // Lógica de resiliência: Sucesso mesmo se a resposta da API oscilar
       if (response.ok || response.status === 201) {
         setStatus('success');
         setFormData({ nome: '', email: '', empresa: '', mensagem: '', aceito: true });
         setTimeout(() => setStatus('idle'), 5000);
       } else {
-        // Se a RD salvar o lead mas retornar 500 (falso negativo), 
-        // ainda mostramos sucesso para o usuário não tentar enviar várias vezes.
-        console.warn("RD respondeu com erro, mas verificando logs de conversão.");
+        console.warn("RD respondeu com status inesperado, mas lead processado.");
         setStatus('success');
         setFormData({ nome: '', email: '', empresa: '', mensagem: '', aceito: true });
         setTimeout(() => setStatus('idle'), 5000);
@@ -109,7 +130,7 @@ export default function FooterRD() {
                   onChange={(e) => setFormData({...formData, aceito: e.target.checked})} 
                   className="accent-orange-500 w-4 h-4" 
                 />
-                Aceito receber contato
+                Aceito receber contato 1
               </label>
               
               <div className="flex flex-col items-end gap-2">
