@@ -321,9 +321,9 @@ export default function Home() {
 
       {/* COMPONENTES DE CONVERSÃO RD STATION */}
       <NewsletterRD />
-      <section id="footer">
+      {/* <section id="footer">
         <FooterRD />
-      </section>
+      </section> */}
     </main>
   );
 }
