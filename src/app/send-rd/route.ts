@@ -6,26 +6,30 @@ export async function POST(req: Request) {
     const body = await req.json();
     const PUBLIC_TOKEN = 'b91cc3a01e31193552fad70cdf8e2fc2'; 
     
-    // URL oficial de conversões v1.1
+    // URL mais estável para formulários manuais
     const rdUrl = 'https://www.rdstation.com.br/api/1.1/conversions';
 
     const params = new URLSearchParams();
     params.append('token_rdstation', PUBLIC_TOKEN);
     params.append('identificador', 'Contato_Site_LiftLearn');
+    
+    // Garantindo que os valores básicos existam para não dar 502
     params.append('email', body.email || '');
-    params.append('nome', body.nome || '');
+    if (body.nome) {
+      params.append('nome', body.nome);
+    }
     
-    if (body.empresa) params.append('empresa', body.empresa);
-    if (body.mensagem) params.append('mensagem', body.mensagem);
-    
-    // Enviar o consentimento se o checkbox estiver marcado
+    // Consentimento LGPD
     params.append('privacy_policy', body.aceito ? '1' : '0');
+
+    // OPCIONAL: Se quiser testar apenas o básico, deixe as linhas abaixo comentadas
+    // if (body.empresa) params.append('empresa', body.empresa);
+    // if (body.mensagem) params.append('mensagem', body.mensagem);
 
     const response = await fetch(rdUrl, {
       method: 'POST',
       headers: { 
         'Content-Type': 'application/x-www-form-urlencoded',
-        'Accept': 'application/json'
       },
       body: params.toString(),
     });
@@ -33,18 +37,17 @@ export async function POST(req: Request) {
     const responseData = await response.text();
 
     if (response.ok) {
-      console.log(">>> LEAD ENVIADO COM SUCESSO PARA RD STATION");
+      console.log(">>> SUCESSO: Lead enviado para RD Station");
       return NextResponse.json({ success: true });
     } else {
-      // Se der 404 aqui, é porque a conta na RD não reconheceu o token ou o domínio
-      console.error(">>> ERRO RESPOSTA RD STATION:", responseData);
+      console.error(">>> ERRO RESPOSTA RD STATION:", response.status, responseData);
       return NextResponse.json(
         { success: false, error: responseData }, 
         { status: response.status }
       );
     }
   } catch (error: any) {
-    console.error(">>> ERRO CRÍTICO NA ROTA API:", error.message);
+    console.error(">>> ERRO CRÍTICO NA ROTA:", error.message);
     return NextResponse.json(
       { success: false, message: error.message }, 
       { status: 500 }
