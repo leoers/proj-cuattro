@@ -7,7 +7,7 @@ export async function POST(req: Request) {
     const PUBLIC_TOKEN = 'b91cc3a01e31193552fad70cdf8e2fc2'; 
     
     // URL oficial de conversões v1.1
-    const rdUrl = 'https://api.rdstation.com.br/cgi-bin/v1.1/conversions';
+    const rdUrl = 'https://www.rdstation.com.br/api/1.1/conversions';
 
     const params = new URLSearchParams();
     params.append('token_rdstation', PUBLIC_TOKEN);
