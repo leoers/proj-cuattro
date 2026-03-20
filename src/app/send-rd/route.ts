@@ -5,11 +5,11 @@ export async function POST(req: Request) {
   try {
     const body = await req.json();
     
-    // A chave que você gerou na parte da direita do painel
+    // A chave que você gerou (Lado Direito do Painel)
     const API_KEY = 'cmXrfEMWPZPuYdCtjsPnMYjxTDvnPUYkhWjo'; 
     
-    // ATENÇÃO: Para chaves diretas (sem App), usamos o endpoint de Events
-    const rdUrl = `https://api.rd.services/platform/conversions?api_key=${API_KEY}`;
+    // URL LIMPA (Sem o ?api_key=...)
+    const rdUrl = 'https://api.rd.services/platform/conversions';
 
     const payload = {
       event_type: "CONVERSION",
@@ -17,7 +17,7 @@ export async function POST(req: Request) {
       payload: {
         conversion_identifier: body.identificador || "newsletter-lift-learn",
         email: body.email.trim(),
-        name: body.nome || "",
+        name: body.nome || "Lead Site",
       }
     };
 
@@ -25,8 +25,9 @@ export async function POST(req: Request) {
       method: 'POST',
       headers: { 
         'Content-Type': 'application/json',
-        'Accept': 'application/json'
-        // Note: Sem o header Authorization Bearer, pois a chave vai na URL
+        'Accept': 'application/json',
+        // AJUSTE AQUI: Enviando a chave como um Header direto
+        'api-key': API_KEY 
       },
       body: JSON.stringify(payload),
     });
@@ -34,10 +35,10 @@ export async function POST(req: Request) {
     const responseText = await response.text();
 
     if (response.ok) {
-      console.log(">>> SUCESSO ABSOLUTO: Lead enviado via API Key Direta!");
+      console.log(">>> SUCESSO: Lead enviado com chave no Header!");
       return NextResponse.json({ success: true });
     } else {
-      console.error(">>> ERRO NA API:", response.status, responseText);
+      console.error(">>> STATUS RD:", response.status, responseText);
       return NextResponse.json({ success: false, error: responseText }, { status: response.status });
     }
   } catch (error: any) {
