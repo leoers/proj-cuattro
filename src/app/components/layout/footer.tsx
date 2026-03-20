@@ -19,7 +19,7 @@ export default function FooterRD() {
     setStatus('loading');
 
     try {
-      const response = await fetch('/api', {
+      const response = await fetch('/api/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -105,7 +105,7 @@ export default function FooterRD() {
                   onChange={(e) => setFormData({...formData, aceito: e.target.checked})} 
                   className="accent-orange-500 w-4 h-4" 
                 />
-                Aceito receber contato12
+                Aceito receber contato13
               </label>
               
               <div className="flex flex-col items-end gap-2">
