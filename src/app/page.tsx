@@ -71,6 +71,7 @@ export default function Home() {
               title="SMART TAG"
               description={<>Tag inteligente<br /> conectada aos<br /> produtos da loja.</>}
               videoUrl="/videos/vinho.mp4"
+              posterUrl="/images/cases/img1.png" // Ex: /images/posters/capa-vinho.jpg
               iconPath="/images/ui/icone-sensor.png"
             />
 
@@ -78,6 +79,7 @@ export default function Home() {
               title={<>LIFT:<br />AÇÃO DO CLIENTE</>}
               description="Cliente levanta o produto, ativando o sistema automaticamente."
               videoUrl="/videos/lift.mp4"
+              posterUrl="/images/cases/img2.png" // Ex: /images/posters/capa-lift.jpg
               iconPath="/images/ui/icone-lift.png"
             />
 
@@ -85,6 +87,7 @@ export default function Home() {
               title={<>LEARN:<br />CONTEÚDO NA TELA</>}
               description="Conteúdo personalizado aparece na tela, instantaneamente."
               videoUrl="/videos/learn.mp4"
+              posterUrl="/images/cases/img3.png" // Ex: /images/posters/capa-learn.jpg
               iconPath="/images/ui/icone-learn.png"
             />
 
@@ -92,6 +95,7 @@ export default function Home() {
               title="CONVERSÃO"
               description={<>Conversão<br />em vendas no PDV.</>}
               videoUrl="/videos/vendas.mp4"
+              posterUrl="/images/cases/img4.png" // Ex: /images/posters/capa-vendas.jpg
               iconPath="/images/ui/icone-conversao.png"
             />
           </div>
@@ -315,9 +319,9 @@ export default function Home() {
         </div>
       </section>
 
-      <section>
+      {/* <section>
         <Carousel />
-      </section>
+      </section> */}
 
       {/* COMPONENTES DE CONVERSÃO RD STATION */}
       <NewsletterRD />

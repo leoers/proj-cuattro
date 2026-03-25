@@ -1,18 +1,18 @@
 'use client'; 
 
-import { useRef, useState, ReactNode, useEffect } from 'react';
+import { useRef, ReactNode } from 'react';
 import Image from 'next/image';
 
 interface VideoCardProps {
   title: ReactNode; 
   description: ReactNode; 
   videoUrl: string;
+  posterUrl: string; // Nova prop para a imagem de capa
   iconPath: string;
 }
 
-export default function VideoCard({ title, description, videoUrl, iconPath }: VideoCardProps) {
+export default function VideoCard({ title, description, videoUrl, posterUrl, iconPath }: VideoCardProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
-  const [videoKey, setVideoKey] = useState(0);
 
   // Função para dar play no hover ou toque
   const handleMouseEnter = () => {
@@ -25,8 +25,7 @@ export default function VideoCard({ title, description, videoUrl, iconPath }: Vi
   const handleMouseLeave = () => {
     if (videoRef.current) {
       videoRef.current.pause();
-      // Voltamos para o início para manter a "capa" estática
-      videoRef.current.currentTime = 0;
+      videoRef.current.currentTime = 0; // Volta para o poster
     }
   };
 
@@ -35,7 +34,7 @@ export default function VideoCard({ title, description, videoUrl, iconPath }: Vi
       className="group relative h-[560px] w-full min-w-[270px] bg-black rounded-[45px] overflow-hidden cursor-pointer shadow-xl transition-all duration-500 hover:shadow-2xl hover:-translate-y-2"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      onTouchStart={handleMouseEnter} // Suporte para toque no celular
+      onTouchStart={handleMouseEnter} 
     >
       {/* Ícone */}
       <div className="absolute top-12 left-10 z-30 w-12 h-12">
@@ -51,19 +50,15 @@ export default function VideoCard({ title, description, videoUrl, iconPath }: Vi
 
       <div className="absolute inset-0 w-full h-full overflow-hidden z-0">
         <video
-            key={videoKey}
             ref={videoRef}
             src={videoUrl}
+            poster={posterUrl} // A CAPA QUE EVITA TELA PRETA
             loop
             muted
             playsInline
             /* @ts-ignore */
             webkit-playsinline="true"
-            preload="auto"
-            // O segredo: onLoadedData garante que o vídeo carregue o frame e pare
-            onLoadedData={(e) => {
-              e.currentTarget.pause();
-            }}
+            preload="metadata" // "metadata" é melhor para performance que "auto"
             className="absolute inset-0 w-full h-full object-cover object-center opacity-65 group-hover:opacity-100 group-hover:scale-110 transition-all duration-1000"
         />
       </div>
